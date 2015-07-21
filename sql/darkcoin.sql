@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS `hosting` (
   `id` int(11) NOT NULL,
   `ip` varchar(128) NOT NULL,
   `txid` varchar(128) DEFAULT NULL,
+  `address` varchar(128) DEFAULT NULL,
   `key` varchar(128) DEFAULT NULL,
   `out` int(11) DEFAULT NULL,
   `time` int(11) DEFAULT NULL,
