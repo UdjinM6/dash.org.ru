@@ -49,7 +49,7 @@ if(!empty($_GET['control'])){
 	$query->execute();
 	if($query->rowCount() != 1) die('no_key');
 	$row=$query->fetch();
-	$ip = $row['ip'];	
+	$ip = $row['ip'];
 	switch($_GET['control']){
 		default: echo "no"; break;
 		case 'restart': send_do('restart', $ip, $key); break;
@@ -59,6 +59,9 @@ if(!empty($_GET['control'])){
 		break;
 		case 'status':
 			echo check_mn($ip);
+		break;
+		case 'info':
+			echo 'https://dashninja.pl/mndetails.html?mnpubkey='.$row['address'];
 		break;
 	}
 	die;
@@ -106,7 +109,7 @@ if($query->rowCount() != 1){
 	$address = $decode_tx["vout"]['0']["scriptPubKey"]["addresses"]['0'];
 	
 	$balance = 0; $balance = @file_get_contents("http://explorer.darkcoin.io/chain/Darkcoin/q/addressbalance/$address");
-	if($balance != 1000) die('not_1000_DASH_BALANCE');
+	if($balance < 1000) die('not_1000_DASH_BALANCE');
 
 	$end_block = $darkcoin->getblockcount();
 	$start_block = $end_block - 15;
@@ -124,8 +127,9 @@ if($query->rowCount() != 1){
 
 	$mn_key = $darkcoin->masternode('genkey');
 
-	$query = $db->prepare("UPDATE `hosting` SET `txid` = :txid,`time` = :time, `out` = :out, `key` = :key  WHERE `ip` = :ip");
+	$query = $db->prepare("UPDATE `hosting` SET `txid` = :txid, `address` = :address, `time` = :time, `out` = :out, `key` = :key WHERE `ip` = :ip");
 	$query->bindParam(':txid', $tx, PDO::PARAM_STR);
+	$query->bindParam(':address', $address, PDO::PARAM_STR);
 	$query->bindParam(':time', time(), PDO::PARAM_STR);
 	$query->bindParam(':out', $outputs, PDO::PARAM_STR);
 	$query->bindParam(':key', $mn_key, PDO::PARAM_STR);
