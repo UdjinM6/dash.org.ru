@@ -1,34 +1,5 @@
 <?
-require_once($_SERVER['DOCUMENT_ROOT'].'/private/class/easydarkcoin.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/private/config.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/private/init/mysql.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/private/func.php');
-$darkcoin = new Darkcoin('xxx','xxx','localhost','9998');
-$info = $darkcoin->masternode('list');
-
-function check_mn($ip){
-	global $darkcoin, $info;
-	
-	if(@$info["$ip:9999"] == 'ENABLED'){
-		$i = 'OK';
-	}else{
-		$i = 'NO';
-	}
-	return $i;
-}
-
-$mn_online = 0;
-
-$query = $db->query("SELECT * FROM `hosting`");
-$query->execute();
-$mn_all = $query->rowCount();
-	while($row=$query->fetch()){
-		if(check_mn($row['ip']) == 'OK' || time()-60*60*24 < $row['last'] || time()-60*60*24 < $row['time']){
-			$mn_online++;
-		}
-	}
-
-$mn_free = $mn_all - $mn_online;
+require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 ?>
 
 <!DOCTYPE html>
@@ -82,7 +53,12 @@ $mn_free = $mn_all - $mn_online;
 <div class="container">
 	<div class="row">
 		<div class="col-md-12 ">
-			<h3>MasterNode хостинг</h3>
+			<div style="width: 100%; padding-bottom:65px;">
+				<div style="float: left;">
+					<h3>MasterNode хостинг</h3>
+				</div>
+				<div class="pull-right" style=" padding-right: 75px; padding-top: 23px;"><img src="/img/16/us.png"> <a href="/pages/mn-en.php">English</a></div>
+			</div>
 			MasterNode (мастернода) – узел в сети Dash, который поддерживает проведение анонимных и моментальных транзакций, а также отвечает за раздачу blockchain.<br/><br/>
 			За это владельцы мастернод получают часть монет от эмиссии. Для создания мастерноды требуется 1000 монет Dash.<br/>
 			Чтобы получать выплаты, мастернода должна быть постоянно включена и подключена к сети.<br/>
@@ -104,8 +80,6 @@ $mn_free = $mn_all - $mn_online;
 			Если она окажется меньше установленного лимита, тогда ваша мастернода без предупреждения отключается.<br><br>
 			
 			Количество размещенных MN: <? echo $mn_online; ?> | Количество свободных мест: <? echo $mn_free; ?> | Минимальный donate лимит: 10%<br/><br/>
-			
-			
 			
 			<hr>
 			
@@ -168,115 +142,6 @@ $mn_free = $mn_all - $mn_online;
 		</div>
 	</div>
 </div>
-<script>
-$("#log").click(function(e) {
-	$(this).blur();
-	e.preventDefault();
-	key = $('input[id=private_key]').val();
-	$('#myModal').modal('show');
-	$.post("//dash.org.ru/public/mn.php?control=log", { key: key }, function( data ){
-		$('#myModal').modal('hide');
-		if(data == 'no_key'){
-			alertify.error("Неправильный ключ");
-			return;
-		}
-		window.location = data;
-	});
-});
-
-$("#info").click(function(e) {
-	$(this).blur();
-	e.preventDefault();
-	key = $('input[id=private_key]').val();
-	$('#myModal').modal('show');
-	$.post("//dash.org.ru/public/mn.php?control=info", { key: key }, function( data ){
-		$('#myModal').modal('hide');
-		if(data == 'no_key'){
-			alertify.error("Неправильный ключ");
-			return;
-		}
-		window.location = data;
-	});
-});
-
-$("#restart").click(function(e) {
-	$(this).blur();
-	e.preventDefault();
-	key = $('input[id=private_key]').val();
-	$('#myModal').modal('show');
-	$.post("//dash.org.ru/public/mn.php?control=restart", { key: key }, function( data ){
-		$('#myModal').modal('hide');
-		if(data == 'no_key'){
-			alertify.error("Неправильный ключ");
-			return;
-		}
-		alertify.success("Готово");
-	});
-});
-
-$("#status").click(function(e) {
-	$(this).blur();
-	e.preventDefault();
-	key = $('input[id=private_key]').val();
-	$('#myModal').modal('show');
-	$.post("//dash.org.ru/public/mn.php?control=status", { key: key }, function( data ){
-		$('#myModal').modal('hide');
-		if(data == 'no_key'){
-			alertify.error("Неправильный ключ");
-			return;
-		}
-		if(data == 'OK'){
-			alertify.success("Ваша MN работает");
-			return;
-		}else{
-			alertify.error("Ваша MN не работает");
-			return;
-		}
-	});
-});
-
-$("#setup").click(function(e) {
-	$(this).blur();
-	e.preventDefault();
-	txid = $('input[id=txid]').val();
-	$('#myModal').modal('show');
-	$.post("//dash.org.ru/public/mn.php", { txid: txid }, function( data ){
-		$('#myModal').modal('hide');
-		if(data == 'empty'){
-			alertify.error("Пустое значение");
-			return;
-		}
-		if(data == 'wrong_txid'){
-			alertify.error("Неправильный номер транзакции");
-			return;
-		}
-		if(data == 'full'){
-			alertify.error("Нет мест");
-			return;
-		}
-		if(data == 'not_15_conf'){
-			alertify.error("Дождитесь 15 подтверждений");
-			return;
-		}
-		if(data == 'not_1000_DASH_TX'){
-			alertify.error("Неправильная транзакция");
-			return;
-		}
-		if(data == 'not_1000_DASH_BALANCE'){
-			alertify.error("Ваш баланс != 1000 DASH");
-			return;
-		}
-		if(data == 'error'){
-			alertify.error("Ошибка");
-			return;
-		}
-		if(data == 'mn_work'){
-			alertify.error("MN уже работает");
-			return;
-		}
-		window.location = "//dash.org.ru/public/mn.php?download=getfile&data="+data;
-	});
-});
-</script>
+<script src="//dash.org.ru/js/mn.js"></script>
 </body>
 </html>
