@@ -92,7 +92,7 @@ if($query->rowCount() != 1){
 	$query = $db->query("SELECT * FROM `hosting`");
 	$query->execute();
 	while($row=$query->fetch()){
-		if(check_mn($row['ip']) == 'NO' && time()-60*60*24 > $row['last'] && time()-60*60*24 > $row['time']){
+		if(check_mn($row['ip']) == 'NO' && time()-60*60*24 > $row['last'] && time()-60*60*3 > $row['time']){
 			$ip = $row['ip'];
 			continue;
 		}
