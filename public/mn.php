@@ -104,11 +104,19 @@ if($query->rowCount() != 1){
 	if(empty($raw_tx)) die('wrong_txid');
 
 	$decode_tx = $darkcoin->decoderawtransaction($raw_tx);
-	if($decode_tx["vout"]['0']["value"] != 1000) die('not_1000_DASH_TX');
-	$outputs = $decode_tx["vout"]['0']["n"];
-	$address = $decode_tx["vout"]['0']["scriptPubKey"]["addresses"]['0'];
+	if($decode_tx["vout"]['0']["value"] != 1000 && $decode_tx["vout"]['1']["value"] != 1000) die($decode_tx["vout"]['1']["value"]);
 	
-	$balance = 0; $balance = @file_get_contents("http://explorer.darkcoin.io/chain/Darkcoin/q/addressbalance/$address");
+	if($decode_tx["vout"]['0']["value"] == 1000){
+		$outputs = $decode_tx["vout"]['0']["n"];
+		$address = $decode_tx["vout"]['0']["scriptPubKey"]["addresses"]['0'];
+	}
+	
+	if($decode_tx["vout"]['1']["value"] == 1000){
+		$outputs = $decode_tx["vout"]['1']["n"];
+		$address = $decode_tx["vout"]['1']["scriptPubKey"]["addresses"]['0'];
+	}
+	
+	$balance = 0; $balance = @file_get_contents("http://explorer.dash.org.ru/chain/Dash/q/addressbalance/$address");
 	if($balance < 1000) die('not_1000_DASH_BALANCE');
 
 	$end_block = $darkcoin->getblockcount();
