@@ -1,7 +1,21 @@
-<? 
+<?
 function conf_dash($command, $ip, $key){
 	$conf = "/home/dash/data/$ip/dash.conf";
 	$file = file($conf);
+
+	// remove empty lines
+	if(count($file) != 8 || count($file) != 6){
+		foreach ($file as $key_arr => $value) {
+			if($key_arr == 0) $file[$key_arr] = trim($value);
+					else  $file[$key_arr] = "\n".trim($value);
+			if($key_arr > 5) unset($file[$key_arr]);
+		}
+		file_put_contents($conf, $file, LOCK_EX);
+		unset($conf);
+		unset($file);
+		$conf = "/home/dash/data/$ip/dash.conf";
+		$file = file($conf);
+	}
 	
 	if($command == 'check'){
 		if(count($file) == 8){
@@ -55,7 +69,7 @@ switch($_GET['do']){
 		dash_restart($ip);
 	break;
 	case 'log':
-		if(!is_dir("/var/www/$ip")) mkdir("/var/www/$ip", 0755);
-		shell_exec("tar -czf /var/www/$ip/debug.tar.gz -C /home/dash/data/$ip/ debug.log");
-	break;
+		if(!is_dir("/var/www/api/root/$ip")) mkdir("/var/www/api/root/$ip", 0755);
+		shell_exec("tar -czf /var/www/api/root/$ip/debug.tar.gz -C /home/dash/data/$ip/ debug.log");
+	break;	
 }
