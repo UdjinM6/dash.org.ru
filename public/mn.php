@@ -4,23 +4,23 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/config.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/init/mysql.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/func.php');
 $darkcoin = new Darkcoin('xxx','xxx','localhost','9998');
-$info = $darkcoin->masternode('list');
+$info = $darkcoin->masternode('list', 'addr');
 $donate = "XkB8ySpiqyVHeAXHsNhU83mUJ7Jd3CJaqW:10";
 $name = "mn1";
 $auth = "secret";
 
 function send_do($command, $ip, $key){
 	global $auth;
-	return file_get_contents("http://92.222.108.232/index.php?do=$command&ip=$ip&key=$key&auth=$auth");
+	return file_get_contents("http://api.dash.org.ru/index.php?do=$command&ip=$ip&key=$key&auth=$auth");
 }
 
 function check_mn($ip){
-	global $darkcoin, $info;
-	if(@$info["$ip:9999"] == 'ENABLED'){
-		$i = 'OK';
-	}else{
-		$i = 'NO';
-	}
+	global $darkcoin, $info, $db; $i = 'NO';
+	$query = $db->prepare("SELECT * FROM `hosting` WHERE `ip` = :ip");
+	$query->bindParam(':ip', $ip, PDO::PARAM_STR);
+	$query->execute();
+	$row = $query->fetch();
+	if (in_array("$ip:9999", $info) && $row['txid'] !== NULL) $i = 'OK';
 	return $i;
 }
 
@@ -29,7 +29,7 @@ $query = $db->query("SELECT * FROM `hosting`");
 $query->execute();
 $mn_all = $query->rowCount();
 	while($row=$query->fetch()){
-		if(check_mn($row['ip']) == 'OK'){
+		if(check_mn($row['ip']) == 'OK' && $row['txid'] !== NULL){
 			$query_update = $db->prepare("UPDATE `hosting` SET `last` = :time WHERE `ip` = :ip");
 			$query_update->bindParam(':time', time(), PDO::PARAM_STR);
 			$query_update->bindParam(':ip', $row['ip'], PDO::PARAM_STR);
@@ -55,7 +55,7 @@ if(!empty($_GET['control'])){
 		case 'restart': send_do('restart', $ip, $key); break;
 		case 'log':
 			send_do('log', $ip, $key);
-			echo "http://92.222.108.232/$ip/debug.tar.gz";
+			echo "http://api.dash.org.ru/$ip/debug.tar.gz";
 		break;
 		case 'status':
 			echo check_mn($ip);
@@ -92,7 +92,7 @@ if($query->rowCount() != 1){
 	$query = $db->query("SELECT * FROM `hosting`");
 	$query->execute();
 	while($row=$query->fetch()){
-		if(check_mn($row['ip']) == 'NO' && time()-60*60*24 > $row['last'] && time()-60*60*3 > $row['time']){
+		if(check_mn($row['ip']) == 'NO' && time()-60*60*24 > $row['last'] && time()-60*60*12 > $row['time']){
 			$ip = $row['ip'];
 			continue;
 		}
