@@ -10,8 +10,21 @@ $name = "mn1";
 $auth = "secret";
 
 function send_do($command, $ip, $key){
-	global $auth;
-	return file_get_contents("http://api.dash.org.ru/index.php?do=$command&ip=$ip&key=$key&auth=$auth");
+	global $auth, $db;
+	
+	$query = $db->prepare("SELECT * FROM `hosting` WHERE `ip` = :ip");
+	$query->bindParam(':ip', $ip, PDO::PARAM_STR);
+	$query->execute();
+	$row = $query->fetch();
+	$api = $row['api'];
+	
+	$query = $db->prepare("SELECT * FROM `api` WHERE `id` = :id");
+	$query->bindParam(':id', $api, PDO::PARAM_STR);
+	$query->execute();
+	$row = $query->fetch();
+	$api = $row['api'];
+	
+	return file_get_contents("http://$api/index.php?do=$command&ip=$ip&key=$key&auth=$auth");
 }
 
 function check_mn($ip){

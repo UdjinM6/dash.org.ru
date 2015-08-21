@@ -73,9 +73,19 @@ CREATE TABLE IF NOT EXISTS `hosting` (
   `key` varchar(128) DEFAULT NULL,
   `out` int(11) DEFAULT NULL,
   `time` int(11) DEFAULT NULL,
-  `last` int(11) DEFAULT NULL
+  `last` int(11) DEFAULT NULL,
+  `api` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+CREATE TABLE IF NOT EXISTS `api` (
+  `id` int(11) NOT NULL,
+  `api` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE `api`
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `api` (`api`);
 
 ALTER TABLE `address`
   ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `address` (`address`);
@@ -105,7 +115,7 @@ ALTER TABLE `price`
   ADD PRIMARY KEY (`id`);
   
 ALTER TABLE `hosting`
-  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `ip` (`ip`), ADD KEY `key` (`txid`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `ip` (`ip`), ADD KEY `key` (`txid`), ADD KEY `api` (`api`);;
 
 
 ALTER TABLE `address`
@@ -128,3 +138,6 @@ ALTER TABLE `price`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `hosting`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `api`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ 
