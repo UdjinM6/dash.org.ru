@@ -23,7 +23,7 @@ function check_mn($ip){
 	
 	if($status == 'work'){ // возможно кошелек завис
 		$i = shell_exec("dash-cli -datadir=/home/dash/data/$ip getinfo");
-		if(strripos($i, 'version') === FALSE){
+		if(strripos($i, 'version') === FALSE && strripos($i, 'Loading') !== FALSE){  // не выключаем если кошелек загружается => error: {"code":-28,"message":"Loading block index..."}
 			shell_exec("ps aux | grep -i \"dashd -datadir=/home/dash/data/$ip -daemon\" | awk {'print $2'} | xargs kill -9");
 			shell_exec("su - dash -c \"dashd -datadir=/home/dash/data/$ip -daemon > /dev/null 2>/dev/null &\"");
 			$status = 'not_work';
