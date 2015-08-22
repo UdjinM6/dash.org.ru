@@ -5,12 +5,20 @@ $mn_ips = ['149.202.239.228', '149.202.239.229', '149.202.239.230', '149.202.239
 			'5.135.29.20', '5.135.29.21', '5.135.29.22', '5.135.29.23', 
 			'92.222.108.232', '92.222.108.233', '92.222.108.234', '92.222.108.235'];
 
+function log_restart($ip, $message){
+	$file = '/root/restart.log';
+	$date = date("[Y-m-d | H:i:s]");
+	$text = "$date $ip => $message\n";
+	file_put_contents($file, $text, FILE_APPEND | LOCK_EX);
+}
+
 function check_mn($ip){
 	$status = 'work';
 	$i = explode("\n", shell_exec("ps aux | grep $ip | awk '{print $11\" \"$12\" \"$13}'"));
 	if (!in_array("dashd -datadir=/home/dash/data/$ip -daemon", $i)){ // проверяем есть ли процесс
 		shell_exec("su - dash -c \"dashd -datadir=/home/dash/data/$ip -daemon > /dev/null 2>/dev/null &\"");
 		$status = 'not_work';
+		log_restart($ip, 'crash');
 	}
 	
 	if($status == 'work'){ // возможно кошелек завис
@@ -19,6 +27,7 @@ function check_mn($ip){
 			shell_exec("ps aux | grep -i \"dashd -datadir=/home/dash/data/$ip -daemon\" | awk {'print $2'} | xargs kill -9");
 			shell_exec("su - dash -c \"dashd -datadir=/home/dash/data/$ip -daemon > /dev/null 2>/dev/null &\"");
 			$status = 'not_work';
+			log_restart($ip, 'freeze');
 		}
 	}
 	
@@ -28,4 +37,3 @@ function check_mn($ip){
 foreach ($mn_ips as $value) {
 	echo "$value => ".check_mn($value)."\n";
 }
-
