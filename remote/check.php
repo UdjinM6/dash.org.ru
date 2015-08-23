@@ -1,4 +1,6 @@
 <?php
+require_once('/root/easydarkcoin.php');
+
 // check mn and if stop - start it.
 $mn_ips = ['149.202.239.228', '149.202.239.229', '149.202.239.230', '149.202.239.231', 
 			'5.135.29.16', '5.135.29.17', '5.135.29.18', '5.135.29.19', 
@@ -13,7 +15,7 @@ function log_restart($ip, $message){
 }
 
 function check_mn($ip){
-	$status = 'work';
+	global $darkcoin; $status = 'work';
 	$i = explode("\n", shell_exec("ps aux | grep $ip | awk '{print $11\" \"$12\" \"$13}'"));
 	if (!in_array("dashd -datadir=/home/dash/data/$ip -daemon", $i)){ // проверяем есть ли процесс
 		shell_exec("su - dash -c \"dashd -datadir=/home/dash/data/$ip -daemon > /dev/null 2>/dev/null &\"");
@@ -21,9 +23,8 @@ function check_mn($ip){
 		log_restart($ip, 'crash');
 	}
 	
-	if($status == 'work'){ // возможно кошелек завис
-		$i = shell_exec("dash-cli -datadir=/home/dash/data/$ip getinfo");
-		if(strripos($i, 'version') === FALSE && strripos($i, 'Loading') !== FALSE){  // не выключаем если кошелек загружается => error: {"code":-28,"message":"Loading block index..."}
+	if($status == 'work'){ // if dashd freeze
+		if($darkcoin->getinfo() === FALSE){ // let`s ping rcp and if no answer => hard kill and restart
 			shell_exec("ps aux | grep -i \"dashd -datadir=/home/dash/data/$ip -daemon\" | awk {'print $2'} | xargs kill -9");
 			shell_exec("su - dash -c \"dashd -datadir=/home/dash/data/$ip -daemon > /dev/null 2>/dev/null &\"");
 			$status = 'not_work';
@@ -35,5 +36,8 @@ function check_mn($ip){
 }
 
 foreach ($mn_ips as $value) {
-	echo "$value => ".check_mn($value)."\n";
+	$i = file_get_contents("/home/dash/data/$value/dash.conf");
+	preg_match("/rpcport=(.*)/",$i, $rpcport);
+	$darkcoin = new Darkcoin('xxxx','xxxx','localhost', $rpcport[1]);
+	echo "$value $rpcport[1] => ".check_mn($value)."\n";
 }
