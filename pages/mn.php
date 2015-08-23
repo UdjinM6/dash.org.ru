@@ -139,6 +139,28 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 			Напоминание №2. При запуска Мастерноды - 1000 DASH никуда не тратятся и не блокируются.<br/>
 			Вы можете ими в любой момент воспользоваться. Однако, это повлечёт за собой выключение вашей Мастерноды.<br/><br/>
 			
+			<hr>
+			
+			<h3>"Выключенные" мастерноды</h3>
+			Стараемся не допустить выключения мастернод с помощью мониторинга и скриптов.<br/>
+			В случае если мастернода упала (crash) или зависла (freeze) - она <a href="https://github.com/poiuty/dashpay.org.ru/blob/master/remote/check.php" target="_blank">будет автоматически перезагружена</a>.<br/>
+			Чаще всего crash и freeze происходят из-за ошибок в кошельке. Разработчики DASH достаточно быстро исправляют подобные ошибки.<br/>
+			Если вы увидели свою мастерноду в этом списке. Вам необходимо открыть холодный кошелек, далее открыть консоль и включить ее командой.<br/><br/>
+			<blockquote style="font-size:14px;">masternode start-many</blockquote>
+			Если у вас появились какие-либо вопросы или проблемы - свяжитесь с нами <a href="https://forum.bits.media/index.php?/topic/15144-dashorgru-masternode-khosting/" target="_blank">на форуме</a> или в ICQ 450420625 => будем рады помочь.<br/><br/>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th><center>IP</center></th>
+						<th><center>Кошелек</center></th>
+						<th><center>Последний раз видели</center></th>
+					</tr>
+				</thead>
+				<tbody>
+					<? echo $fail_mn; ?>
+				</tbody>
+			</table>
+			<br/>
 		</div>
 	</div>
 </div>

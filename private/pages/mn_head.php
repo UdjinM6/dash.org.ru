@@ -27,5 +27,13 @@ $mn_all = $query->rowCount()+1; // +1 => it`s my node work too ;)
 		}
 	}
 
+$fail_mn = '';
+$j_time = time()-60*60;
+//$k_time = time()-60*60*24;
+$query = $db->query("SELECT * FROM `hosting` WHERE `last` < $j_time"); // AND `last` > $k_time
+$query->execute();
+while($row = $query->fetch()){
+	$fail_mn = "$fail_mn <tr><td><center>$row[ip]</center></td><td><center>$row[address]<center></td><td><center>".date("Y-m-d H:i", $row[last])."</center></td></tr>";
+}
+
 $mn_free = $mn_all - $mn_online; 
-?>
