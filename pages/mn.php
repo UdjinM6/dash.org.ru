@@ -9,8 +9,13 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+	<script type="text/javascript" charset="utf-8"> $(document).ready(function() { $('#mn_table').dataTable({ "order": [[ 2, "desc" ]] }); }); </script>
+	<script type="text/javascript" charset="utf-8"> $(document).ready(function() { $('#pay_table').dataTable({ "order": [[ 3, "desc" ]] }); }); </script>
 	<link rel="stylesheet" href="/css/default.css">
 	<script src="/js/highlight.pack.js"></script>
 	<script src="/js/alertify.js"></script>
@@ -38,8 +43,10 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 			</a>
 			<ul class="nav navbar-nav">
 				<li><a href="/">Главная</a></li>
-				<li><a href="/pages/news.php">Новости</a></li>
-				<li><a href="/pages/download.php">Скачать кошелек</a></li>
+				<!--<li><a href="/pages/news.php">Новости</a></li> -->
+				<li><a href="https://www.dashpay.io/ru/%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D0%B8/" target="_blank">Новости</a></li>
+				<!--<li><a href="/pages/download.php">Скачать кошелек</a></li>-->
+				<li><a href="https://www.dashpay.io/ru/%D1%81%D0%BA%D0%B0%D1%87%D0%B0%D1%82%D1%8C/" target="_blank">Скачать кошелек</a></li>
 				<li><a href="/pages/community.php">Сообщество</a></li>
 				<li><a href="/pages/mining.php">Майнинг</a></li>
 				<li><a href="/pages/trade.php">Биржа</a></li>
@@ -71,15 +78,45 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 			<hr>
 			
 			<h3>Информация</h3>
-			Техническая поддержка пользователей осуществляется через ICQ: 450420625<br/>
+			<div class="alert alert-danger" role="alert">
+			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			  <a href="https://github.com/poiuty/dashpay.org.ru/blob/master/private/cron/pay.php" target="_blank">Сделал прием платежей</a>. Читайте полный анонс в этой теме.<br/><br/>
+			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			  Проверяйте статус работы мастерноды <a href="http://dashninja.pl" target="_blank">на сайте dashninja.pl</a> => на нашем сайте (сейчас) этот список не обновляется.
+			</div>
+			
+			Количество размещенных MN: <? echo $mn_online; ?> | Количество свободных мест: <? echo $mn_free; ?> | Минимальный donate лимит: 10%<br/>
+			Техническая поддержка пользователей осуществляется <a href="https://forum.bits.media/index.php?/topic/15144-dashorgru-masternode-khosting/" target="_blank">на форуме bits.media</a> и через ICQ 450420625<br/><br/>
+			На выбор - два способа оплаты. <i>Оплата через систему пожертвований.</i><br/>
 			Сервис автоматически получает от вас оплату через систему пожертвований.<br/>
 			Вы сами определяете процент оплаты. Этот параметр задается в файле masternode.conf. Например:<br/><br/>
 			<blockquote style="font-size:14px;">XkB8ySpiqyVHeAXHsNhU83mUJ7Jd3CJaqW:10</blockquote>
 	
 			Такая запись означает, что мы получаем 10% от дохода вашей мастерноды. Мы постоянно следим за этой настройкой.<br/>
-			Если она окажется меньше установленного лимита, тогда ваша мастернода без предупреждения отключается.<br><br>
+			Если она окажется меньше установленного лимита, тогда ваша мастернода без предупреждения отключается.<br/>
+			<i><u>После релиза v12 - система пожертвований была выключена</u>. <u>На данный момент, мы не знаем когда она снова заработает</u>.</i><br/><br/>
 			
-			Количество размещенных MN: <? echo $mn_online; ?> | Количество свободных мест: <? echo $mn_free; ?> | Минимальный donate лимит: 10%<br/><br/>
+			
+			<i>Второй способ - оплата прямым переводом.</i><br/>
+			
+			Продление срока будет произведено на основе фактически присланной вами суммы, из расчёта "<i>1 DASH за каждые 10 дней хостинга</i>".<br/>
+			1. Введите в поле поиска адрес вашей мастерноды.<br/>
+			2. Скопируйте соответствующий ей адрес для оплаты хостинга и произведите оплату.<br/>
+			3. Через некоторое время снова проверьте список и убедитесь что продление состоялось.<br/><br/>
+			
+			<table id="pay_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th><center>IP</center></th>
+						<th><center>Кошелек</center></th>
+						<th><center>Куда оплачивать</center></th>
+						<th><center>Оплачено до</center></th>
+					</tr>
+				</thead>
+				<tbody>
+					<? echo $pay_mn; ?>
+				</tbody>
+			</table>
 			
 			<hr>
 			
@@ -148,7 +185,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 			Если вы увидели свою мастерноду в этом списке. Вам необходимо открыть холодный кошелек, далее открыть консоль и включить ее командой.<br/><br/>
 			<blockquote style="font-size:14px;">masternode start-many</blockquote>
 			Если у вас появились какие-либо вопросы или проблемы - свяжитесь с нами <a href="https://forum.bits.media/index.php?/topic/15144-dashorgru-masternode-khosting/" target="_blank">на форуме</a> или в ICQ 450420625 => будем рады помочь.<br/><br/>
-			<table class="table table-bordered">
+			<table id="mn_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>
 					<tr>
 						<th><center>IP</center></th>
@@ -166,4 +203,29 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 </div>
 <script src="//dash.org.ru/js/mn.js"></script>
 </body>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter31626488 = new Ya.Metrika({id:31626488,
+                    clickmap:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/31626488" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </html>
