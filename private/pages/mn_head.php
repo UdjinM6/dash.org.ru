@@ -27,13 +27,18 @@ $mn_all = $query->rowCount()+1; // +1 => it`s my node work too ;)
 		}
 	}
 
-$fail_mn = '';
+$fail_mn = ''; $pay_mn = '';
 $j_time = time()-60*60;
 //$k_time = time()-60*60*24;
 $query = $db->query("SELECT * FROM `hosting` WHERE `last` < $j_time"); // AND `last` > $k_time
 $query->execute();
 while($row = $query->fetch()){
-	$fail_mn = "$fail_mn <tr><td><center>$row[ip]</center></td><td><center>$row[address]<center></td><td><center>".date("Y-m-d H:i", $row[last])."</center></td></tr>";
+	$fail_mn = "$fail_mn <tr><td><center>$row[ip]</center></td><td><center>$row[address]<center></td><td><center>".date("Y-m-d H:i", $row['last'])."</center></td></tr>";
 }
-
 $mn_free = $mn_all - $mn_online; 
+
+$query = $db->query("SELECT * FROM `hosting`");
+$query->execute();
+while($row = $query->fetch()){
+	$pay_mn = "$pay_mn <tr><td><center>$row[ip]</center></td><td><center>$row[address]<center></td><td><center><a href=\"https://chainz.cryptoid.info/dash/address.dws?$row[pay_address].htm\" target=\"_blank\">$row[pay_address]</a><center></td><td><center>".date("Y-m-d H:i", $row['pay_time'])."</center></td></tr>";
+}
