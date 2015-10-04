@@ -63,12 +63,13 @@ if(!empty($_GET['control'])){
 	if($query->rowCount() != 1) die('no_key');
 	$row=$query->fetch();
 	$ip = $row['ip'];
+	$api_url = $row['api'];
 	switch($_GET['control']){
 		default: echo "no"; break;
 		case 'restart': send_do('restart', $ip, $key); break;
 		case 'log':
 			send_do('log', $ip, $key);
-			echo "http://api.dash.org.ru/$ip/debug.tar.gz";
+			echo "http://api".$api_url.".dash.org.ru/$ip/debug.tar.gz";
 		break;
 		case 'status':
 			echo check_mn($ip);
