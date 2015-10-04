@@ -182,8 +182,13 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 			Стараемся не допустить выключения мастернод с помощью мониторинга и скриптов.<br/>
 			В случае если мастернода упала (crash) или зависла (freeze) - она <a href="https://github.com/poiuty/dashpay.org.ru/blob/master/remote/check.php" target="_blank">будет автоматически перезагружена</a>.<br/>
 			Чаще всего crash и freeze происходят из-за ошибок в кошельке. Разработчики DASH достаточно быстро исправляют подобные ошибки.<br/>
-			Если вы увидели свою мастерноду в этом списке. Вам необходимо открыть холодный кошелек, далее открыть консоль и включить ее командой.<br/><br/>
-			<blockquote style="font-size:14px;">masternode start-many</blockquote>
+			Если вы увидели свою мастерноду в этом списке. Вам необходимо, открыть файл <u>masternode.conf</u>, найти название вашей мастерноды.<br/>
+			Например упала мастернода IP => 127.0.0.2, <u>masternode.conf</u> содержит записи.<br/><br/>
+			<blockquote style="font-size:14px;">mn1 127.0.0.1:9999 ...<br/>
+			mn2 127.0.0.2:9999 ...<br/>
+			mn3 127.0.0.3:9999 ...<br/></blockquote>
+			
+			Теперь открываем холодный кошелек, запускаем консоль и включаем мастерноду.<br/><br/>
 			Если у вас появились какие-либо вопросы или проблемы - свяжитесь с нами <a href="https://forum.bits.media/index.php?/topic/15144-dashorgru-masternode-khosting/" target="_blank">на форуме</a> или в ICQ 450420625 => будем рады помочь.<br/><br/>
 			<table id="mn_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>
