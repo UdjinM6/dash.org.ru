@@ -1,6 +1,6 @@
 <?php
-require_once('/var/www/midas/root/private/config.php');
-require_once('/var/www/midas/root/private/init/mysql.php');
+require_once('/var/www/dash/root/private/config.php');
+require_once('/var/www/dash/root/private/init/mysql.php');
 
 function remove_ip($val){
 	//return	preg_replace('/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)(\s?)/', '', str_replace('"', "", $val));

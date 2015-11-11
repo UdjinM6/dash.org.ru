@@ -1,3 +1,4 @@
+<? require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,60 +14,39 @@
 	<style>.tweaked-margin { margin-right: 30px; } </style>
 </head>
 <body>
-<nav class="navbar navbar-default">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/" >
-				<img alt="Brand" src="/img/logo.png" style="max-width: 150px;">
-			</a>
-			<ul class="nav navbar-nav">
-				<li><a href="/">Главная</a></li>
-				<li><a href="/pages/news.php">Новости</a></li>
-				<li><a href="/pages/download.php">Скачать кошелек</a></li>
-				<li><a href="/pages/community.php">Сообщество</a></li>
-				<li><a href="/pages/mining.php">Майнинг</a></li>
-				<li><a href="/pages/trade.php">Биржа</a></li>
-				<li class="active"><a href="/pages/merchant.php">Прием платежей</a></li>
-				<li><a href="/pages/stats.php">Статистика</a></li>
-				<li><a href="/pages/mn.php">Хостинг</a></li>
-			</ul>
-		</div>
-	</div>
-</nav>
+<? echo $navi; ?>
 <div class="container">
 	<div class="row">
 		<div class="col-md-12 ">
 			<h3>Прием платежей</h3>
-			Вы можете автоматизировать прием платежей DASH на вашем сайте. Первый способ - использовать полную версию кошелька.<br/>
-			В личном кабинете, сгенерируйте клиенту уникальный адрес для пополнения счета. Периодически, скриптом проверяйте входящие транзакции на ваш кошелек.<br/>
+			Вы можете автоматизировать прием платежей DASH на вашем сайте. Для этого вам нужно установить и запустить полную версию кошелька.<br/>
+			Каждому клиенту сгенерируйте уникальный адрес для пополнения счета. Периодически, скриптом проверяйте входящие транзакции на ваш кошелек.<br/>
 			Когда вы видите новую входящую транзакцию, проверьте на какой адрес поступили деньги. Узнайте кому из клиентов принадлежит адрес и увеличьте его баланс.<br/>
-			После этого поменяйте в базе статус транзакции, чтобы не зачислить ее повторно. Как видите алгоритм действий достаточно простой. Ниже пример на PHP.<br/><br/>
+			После этого поменяйте в базе статус транзакции, чтобы не зачислить ее повторно. Как видите алгоритм достаточно простой. Ниже пример на PHP.<br/><br/>
 			
-<pre><code class="PHP">require_once('jsonRPCClient.php'); // http://jsonrpcphp.org/?page=download&lang=en
-$dash = new jsonRPCClient('http://USER:PASSWD@127.0.0.1:9998/');
-
-// Получаем массив и делаем цикл
-$i = 0;
-$a = $dash->listtransactions("*", 100000));
+<pre><code class="PHP">require_once('easydarkcoin.php'); // https://github.com/elbereth/EasyDash-PHP
+$dash = new Darkcoin('xxx','xxx','localhost','9998');
 
 /* $dash->getnewaddress("NAME"); => так можно сгенерировать новый адрес клиенту */
+// Получаем массив и делаем цикл
+$a = $dash->listtransactions("*", 100000));
 
-while(count($a) > $i){
+for($i=0; count($a) > $i; $i++){
 // Проверяем тип транзакции, количество подтверждений + сумму
 if($a["$i"]["category"] != "receive" || $a["$i"]["confirmations"] < 6 || $a["$i"]["amount"] < 0.001) continue;
 
 // Есть ли в базе эта транзакция?
-$select_query = $db->prepare("SELECT * FROM `billing_log` WHERE `payment_id` =:id");
-$select_query->bindParam(':id', $a["$i"]["txid"], PDO::PARAM_STR);
-$select_query->execute();
-if($select_query->rowCount() > 0){ $i++; continue; }
+$select = $db->prepare("SELECT * FROM `bills` WHERE `pid` =:id");
+$select->bindParam(':id', $a["$i"]["txid"], PDO::PARAM_STR);
+$select->execute();
+if($select->rowCount() > 0) continue;
 
 // Кто оплачивает?
-$select_query = $db->prepare("SELECT * FROM `users` WHERE `dash` =:address");
-$select_query->bindParam(':address', $a["$i"]["address"], PDO::PARAM_STR);
-$select_query->execute();
-if($select_query->rowCount() != 1){ $i++; continue; }
-$row = $select_query->fetch();
+$select = $db->prepare("SELECT * FROM `users` WHERE `dash` =:address");
+$select->bindParam(':address', $a["$i"]["address"], PDO::PARAM_STR);
+$select->execute();
+if($select_query->rowCount() != 1) continue;
+$row = $select->fetch();
 $user_id = $row['user_id'];
 
 // Узнаем курс
@@ -75,23 +55,46 @@ if(empty($usd["return"]["markets"]["DRK"]["lasttradeprice"])) die('cant get usd 
 
 // Увеличим баланс
 $money = round($a["$i"]["amount"]*$usd["return"]["markets"]["DRK"]["lasttradeprice"]);
-$update_query = $db->prepare("UPDATE `users` SET `money` = `money`+:money WHERE `user_id` = :user_id");
-$update_query->bindParam(':money', $money, PDO::PARAM_STR);
-$update_query->bindParam(':user_id', $user_id, PDO::PARAM_STR);
-$update_query->execute();
+$update = $db->prepare("UPDATE `users` SET `money` = `money`+:money WHERE `user_id` = :user_id");
+$update->bindParam(':money', $money, PDO::PARAM_STR);
+$update->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+$update->execute();
 
 // Запишем лог
-$insert_query = $db->prepare("INSERT INTO `billing_log`(`payment_id`, `amount`, `date`, `system`, `user_id`) VALUES ( :id, :money, :time, 'DASH', :user_id)");
-$insert_query->bindParam(':id', $a["$i"]["txid"], PDO::PARAM_STR);
-$insert_query->bindParam(':money', $money, PDO::PARAM_STR);
-$insert_query->bindParam(':time', time(), PDO::PARAM_STR);
-$insert_query->bindParam(':user_id', $user_id, PDO::PARAM_STR);
-$insert_query->execute();
-
-$i++;
+$insert = $db->prepare("INSERT INTO `bills`(`pid`, `amount`, `date`, `system`, `user_id`) VALUES ( :id, :money, :time, 'DASH', :user_id)");
+$insert->bindParam(':id', $a["$i"]["txid"], PDO::PARAM_STR);
+$insert->bindParam(':money', $money, PDO::PARAM_STR);
+$insert->bindParam(':time', time(), PDO::PARAM_STR);
+$insert->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+$insert->execute();
 }</code></pre><br/>
 		</div>
 	</div>
 </div>
 </body>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter31626488 = new Ya.Metrika({id:31626488,
+                    clickmap:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/31626488" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </html>

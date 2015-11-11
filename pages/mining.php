@@ -1,4 +1,5 @@
-<? 
+<?
+require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php'); 
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/config.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/init/mysql.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/func.php');
@@ -57,26 +58,7 @@ $result_year = round($coins_per_year*$dash-$cost_per_year-$fee_year);
 	<style type="text/css"> .table td, th { text-align: center; } </style>
 </head>
 <body>
-<nav class="navbar navbar-default">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/" >
-				<img alt="Brand" src="/img/logo.png" style="max-width: 150px;">
-			</a>
-			<ul class="nav navbar-nav">
-				<li><a href="/">Главная</a></li>
-				<li><a href="/pages/news.php">Новости</a></li>
-				<li><a href="/pages/download.php">Скачать кошелек</a></li>
-				<li><a href="/pages/community.php">Сообщество</a></li>
-				<li class="active"><a href="/pages/mining.php">Майнинг</a></li>
-				<li><a href="/pages/trade.php">Биржа</a></li>
-				<li><a href="/pages/merchant.php">Прием платежей</a></li>
-				<li><a href="/pages/stats.php">Статистика</a></li>
-				<li><a href="/pages/mn.php">Хостинг</a></li>
-			</ul>
-		</div>
-	</div>
-</nav>
+<? echo $navi; ?>
 <div class="container">
 	<div class="row">
 		<div class="col-md-12 ">
@@ -88,7 +70,7 @@ $result_year = round($coins_per_year*$dash-$cost_per_year-$fee_year);
 			Выпуском новых монет занимается огромное количество людей. Если вы занимаетесь этим самостоятельно и не имеете большой мощности, то может пройти много времени (месяцы и более), прежде чем вы получите награду.
 			Участие в работе пула дает вам возможность зарабатывать понемногу, но зато регулярно, минимизируя для себя влияние удачи и риски месяцами ничего не заработать. Если у вас нет в наличии фермы из десятков или сотен видеокарт, участие в работе пула для вас единственный способ зарабатывать DASH.<br/><br/>
 			Существует два типа пулов: централизованные и децентрализованные. Последние принято называть p2pool.<br/>
-			Вы можете выбрать любой централизованный, например: <a href="https://coinmine.pl/dash/index.php" target="_blank">coinmine</a>, <a href="http://dark.coinobox.ru/" target="_blank">coinobox</a>, <a href="http://darkcoin.miningpoolhub.com/" target="_blank">miningpoolhub</a> или <a href="http://simplemulti.com/" target="_blank">simplemulti</a>.<br/>
+			Вы можете выбрать любой централизованный, например: <a href="https://www2.coinmine.pl/dash/index.php" target="_blank">coinmine</a>, <a href="http://dark.coinobox.ru/" target="_blank">coinobox</a> или <a href="http://darkcoin.miningpoolhub.com/" target="_blank">miningpoolhub</a>.<br/>
 			Мы рекомендуем использовать <a href="/pages/stats.php#p2pool" target="_blank">децентрализованные пулы</a> или выбирать обычный пул со среднем hashrate.<br/>
 			
 			<hr>
@@ -100,7 +82,7 @@ $result_year = round($coins_per_year*$dash-$cost_per_year-$fee_year);
 			Вы можете посчитать приблизительный доход в рублях. Вводите только цифры. Десятичные - через точку.<br/>
 			Обратите внимание, при генерации результата, значение "награда за блок" рассчитывается автоматически.<br/>
 			<br/>
-			<div style="width: 720px;">
+			<div style="width: 800px;">
 				<center>
 					<div class="form-inline">
 						<input id="hashrate" type="text" class="form-control" placeholder="Скорость 10 MH/S" maxlength="5">
@@ -185,11 +167,9 @@ $result_year = round($coins_per_year*$dash-$cost_per_year-$fee_year);
 			<a href="https://dl.dropboxusercontent.com/u/59491914/drk/wolf-x11Hawaiigw64l8ku0.bin">Hawaii R9 290/R9 290X/R9 295X2</a><br/>
 			<a href="https://dl.dropboxusercontent.com/u/59491914/drk/wolf-x11Tahitigw64l8ku0.bin">Tahiti 7870XT/7950/7970/R9 280/R9 280X</a><br/>
 			<a href="https://dl.dropboxusercontent.com/u/59491914/drk/wolf-x11Pitcairngw64l8ku0.bin">Pitcairn 7850/7870/R9 270/R9 270X</a><br/>
-			<a href="https://dl.dropboxusercontent.com/u/59491914/drk/wolf-x11Capeverdegw64l8ku0.bin">Cape Verde 7730/7750/7770</a><br/>	
-			<hr>
-			<h3>Предупреждение</h3>
-			Указанное программное обеспечение не проходило оценки и не получало одобрения разработчиков Dash - таким образом, нет гарантий в достоверности представленной информации. Используя программное обеспечение сторонних разработчиков, вы действуете на свой страх и риск.
-			<br/><br/>
+			<a href="https://dl.dropboxusercontent.com/u/59491914/drk/wolf-x11Capeverdegw64l8ku0.bin">Cape Verde 7730/7750/7770</a><br/>
+			<br/>
+			<br/>
 		</div>
 	</div>
 </div>
@@ -230,4 +210,29 @@ $("#calc").click(function(e) {
 });
 </script>
 </body>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter31626488 = new Ya.Metrika({id:31626488,
+                    clickmap:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/31626488" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </html>

@@ -5,12 +5,17 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>DASH: MasterNode hosting</title>
+	<title>DASH: MasterNode хостинг</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+	<script type="text/javascript" charset="utf-8"> $(document).ready(function() { $('#mn_table').dataTable({ "order": [[ 2, "desc" ]] }); }); </script>
+	<script type="text/javascript" charset="utf-8"> $(document).ready(function() { $('#pay_table').dataTable({ "order": [[ 3, "desc" ]] }); }); </script>
 	<link rel="stylesheet" href="/css/default.css">
 	<script src="/js/highlight.pack.js"></script>
 	<script src="/js/alertify.js"></script>
@@ -38,8 +43,6 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 			</a>
 			<ul class="nav navbar-nav">
 				<li><a href="/">Главная</a></li>
-				<li><a href="/pages/news.php">Новости</a></li>
-				<li><a href="/pages/download.php">Скачать кошелек</a></li>
 				<li><a href="/pages/community.php">Сообщество</a></li>
 				<li><a href="/pages/mining.php">Майнинг</a></li>
 				<li><a href="/pages/trade.php">Биржа</a></li>
@@ -73,15 +76,46 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 			<hr>
 			
 			<h3>Information</h3>
-			Technical support: ICQ 450420625<br/>
-			Payments are doing automatically by Masternode donation system.<br/>
+			<div class="alert alert-danger" role="alert">
+			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			  <b>Unpaid masternodes will be automatically switched off September 10</b>.<br/><br/>
+			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			  <a href="https://github.com/poiuty/dashpay.org.ru/blob/master/private/cron/pay.php" target="_blank">Direct Payments are accepting now</a>. Please read the full announcement.<br/><br/>
+			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			  Check masternode status <a href="http://dashninja.pl" target="_blank">on this site dashninja.pl</a> => our site masternode list dont update now.
+			</div>
+			
+			Number of active MNs: <? echo $mn_online; ?> | Number of available MNs: <? echo $mn_free; ?> | Minimal donation limit: 10%<br/><br/>
+			
+			Technical support ICQ 450420625 and <a href="https://dashtalk.org/threads/dash-org-ru-masternode-hosting.5723/" target="_blank">dashtalk</a><br/>
+			Two way of payment. <i>First - payments are doing automatically by Masternode donation system</i>.<br/>
 			You determine the amount (%) of payment by yourself. This parameter is setting up in masternode.conf file.<br/><br/>
 			<blockquote style="font-size:14px;">XkB8ySpiqyVHeAXHsNhU83mUJ7Jd3CJaqW:10</blockquote>
 	
 			It means you are sending to our service 10% of your total Masternode earnings. We are constantly monitoring this setting.<br/>
-			If your percentage is less than minimal donate limit - your Masternode will be switched off without notice.<br><br>
+			If your percentage is less than minimal donate limit - your Masternode will be switched off without notice.<br>
+			<i><u>After release v12 - donation system has been switched off</u>. <u>At this point, we do not know when it will work again</u>.</i><br/><br/>
 			
-			Number of active MNs: <? echo $mn_online; ?> | Number of available MNs: <? echo $mn_free; ?> | Minimal donation limit: 10%<br/><br/>
+			
+			<i>Second way - Direct Payment.</i><br/>
+			Hosting period will be prolonged accordingly the sum you send us, based on price "<i>1 DASH for every 10 days of hosting service</i>".<br/>
+			1. Input your Masternode address into search form.<br/>
+			2. Copy the corresponding Direct payment address and send payment to it.<br/>
+			3. Later check the list of Masternodes to make sure that your hosting period was prolonged properly.<br/><br/>
+			
+			<table id="pay_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th><center>IP</center></th>
+						<th><center>MN Adress</center></th>
+						<th><center>Pay address</center></th>
+						<th><center>Paid to</center></th>
+					</tr>
+				</thead>
+				<tbody>
+					<? echo $pay_mn; ?>
+				</tbody>
+			</table>
 			
 			<hr>
 			
@@ -132,10 +166,61 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 			Approximately every 5 days your Masternode will get payment.<br/>
 			You can use it as you want, but please take care - if you spend some on 1000 DASH which are using as a collateral - your Masternode will be switched off.<br/>
 			To exclude this - please block your 1000 DASH with <a href="http://www.youtube.com/watch?v=RwcxOphwAok" target="_blank">Coin Control Feature</a>.<br/><br/>
-			If you experience any problems - please call our support.<br/><br/>			
+			If you experience any problems - please call our support.<br/><br/>
+			
+			<hr>
+			
+			<h3>"Off" masternodes</h3>
+			
+			Our system is constantly monitoring all Masternodes and trying to keep them active.<br/>
+			In case of your Masternode was crashed or frozen - <a href="https://github.com/poiuty/dashpay.org.ru/blob/master/remote/check.php" target="_blank">it will be restarted again automatically</a>.<br/>
+			As usual "crash" and "freeze" problems are caused by wallet errors. Dash developers ussualy fix such a problems very quickly.<br/>
+			If you see your Masternode in this list - you should open your local wallet and restart your masternode with command.<br/><br/>
+			<blockquote style="font-size:14px;">masternode start-many</blockquote>
+			
+			If you need any assistance - please contact our support <a href="https://dashtalk.org/threads/dash-org-ru-masternode-hosting.5723/" target="_blank">on forum</a> => we will be happy to help you.<br/><br/>
+			<table id="mn_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th><center>IP</center></th>
+						<th><center>MN Adress</center></th>
+						<th><center>Last time seen</center></th>
+					</tr>
+				</thead>
+				<tbody>
+					<? echo $fail_mn; ?>
+				</tbody>
+			</table>
+			<br/><br/>
+				
 		</div>
 	</div>
 </div>
 <script src="//dash.org.ru/js/mn-en.js"></script>
 </body>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter31626488 = new Ya.Metrika({id:31626488,
+                    clickmap:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/31626488" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </html>

@@ -1,4 +1,5 @@
-<?
+<?php
+require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php'); 
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/config.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/init/mysql.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/func.php');
@@ -232,26 +233,7 @@ for ($i=1; $i<50; $i++) {
 	<style type="text/css"> .table td, th { text-align: center; } </style>
 </head>
 <body>
-<nav class="navbar navbar-default">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/" >
-				<img alt="Brand" src="/img/logo.png" style="max-width: 150px;">
-			</a>
-			<ul class="nav navbar-nav">
-				<li><a href="/">Главная</a></li>
-				<li><a href="/pages/news.php">Новости</a></li>
-				<li><a href="/pages/download.php">Скачать кошелек</a></li>
-				<li><a href="/pages/community.php">Сообщество</a></li>
-				<li><a href="/pages/mining.php">Майнинг</a></li>
-				<li><a href="/pages/trade.php">Биржа</a></li>
-				<li><a href="/pages/merchant.php">Прием платежей</a></li>
-				<li class="active"><a href="/pages/stats.php">Статистика</a></li>
-				<li><a href="/pages/mn.php">Хостинг</a></li>
-			</ul>
-		</div>
-	</div>
-</nav>
+<? echo $navi; ?>
 <div class="container">
 	<div role="tabpanel">
 		<ul class="nav nav-tabs" role="tablist" id="myTab">
@@ -775,4 +757,29 @@ $(function () {
 });
 </script>
 </body>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter31626488 = new Ya.Metrika({id:31626488,
+                    clickmap:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/31626488" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </html>

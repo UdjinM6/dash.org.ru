@@ -1,5 +1,6 @@
 <?
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 ?>
 
 <!DOCTYPE html>
@@ -35,28 +36,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 		</div>
 	</div>
 </div>
-<nav class="navbar navbar-default">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/" >
-				<img alt="Brand" src="/img/logo.png" style="max-width: 150px;">
-			</a>
-			<ul class="nav navbar-nav">
-				<li><a href="/">Главная</a></li>
-				<!--<li><a href="/pages/news.php">Новости</a></li> -->
-				<li><a href="https://www.dashpay.io/ru/%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D0%B8/" target="_blank">Новости</a></li>
-				<!--<li><a href="/pages/download.php">Скачать кошелек</a></li>-->
-				<li><a href="https://www.dashpay.io/ru/%D1%81%D0%BA%D0%B0%D1%87%D0%B0%D1%82%D1%8C/" target="_blank">Скачать кошелек</a></li>
-				<li><a href="/pages/community.php">Сообщество</a></li>
-				<li><a href="/pages/mining.php">Майнинг</a></li>
-				<li><a href="/pages/trade.php">Биржа</a></li>
-				<li><a href="/pages/merchant.php">Прием платежей</a></li>
-				<li><a href="/pages/stats.php">Статистика</a></li>
-				<li class="active"><a href="/pages/mn.php">Хостинг</a></li>
-			</ul>
-		</div>
-	</div>
-</nav>
+<?	echo $navi; ?>
 <div class="container">
 	<div class="row">
 		<div class="col-md-12 ">
@@ -67,26 +47,22 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 				<div class="pull-right" style=" padding-right: 75px; padding-top: 23px;"><img src="/img/16/us.png"> <a href="/pages/mn-en.php">English</a></div>
 			</div>
 			MasterNode (мастернода) – узел в сети Dash, который поддерживает проведение анонимных и моментальных транзакций, а также отвечает за раздачу blockchain.<br/><br/>
-			За это владельцы мастернод получают часть монет от эмиссии. Для создания мастерноды требуется 1000 монет Dash.<br/>
-			Чтобы получать выплаты, мастернода должна быть постоянно включена и подключена к сети.<br/>
-			В то время, как мастернода, выпавшая из сети больше чем на час, вылетает из списка и требует повторного запуска.<br/>
-			При этом она встает в конец очереди, как новая, без компенсации за предыдущее время работы.<br/>
-			Поэтому хозяева узлов заинтересованы в их постоянной работоспособности и надежности.<br/><br/>
 			Разместить мастерноду можно на операционной системе Windows, Linux и MacOS. Опытные пользователи могут <a href="https://forum.bits.media/index.php?/blog/191/entry-333-podnimaem-dash-masternode/" target="_blank">самостоятельно сделать это</a>.<br/>
 			А для тех, кто хочет простое и надежное решение - мы сделали сервис «MasterNode хостинг». С его помощью вы сможете поднять свою ноду и управлять ей.<br/>
-			Поддержите сеть DASH и получайте за это вознаграждение!<br/>
 			<hr>
 			
 			<h3>Информация</h3>
 			<div class="alert alert-danger" role="alert">
 			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			  <a href="https://github.com/poiuty/dashpay.org.ru/blob/master/private/cron/pay.php" target="_blank">Сделал прием платежей</a>. Читайте полный анонс в этой теме.<br/><br/>
+			  <b>Неоплаченные мастерноды будут автоматически выключены 10 сентября</b>.<br/><br/>
+			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			  <a href="https://github.com/poiuty/dashpay.org.ru/blob/master/private/cron/pay.php" target="_blank">Сделал прием платежей</a>. Читайте полный анонс <a href="https://forum.bits.media/index.php?/topic/15144-dashorgru-masternode-khosting" target="_blank">в этой теме</a>.<br/><br/>
 			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 			  Проверяйте статус работы мастерноды <a href="http://dashninja.pl" target="_blank">на сайте dashninja.pl</a> => на нашем сайте (сейчас) этот список не обновляется.
 			</div>
 			
-			Количество размещенных MN: <? echo $mn_online; ?> | Количество свободных мест: <? echo $mn_free; ?> | Минимальный donate лимит: 10%<br/>
-			Техническая поддержка пользователей осуществляется <a href="https://forum.bits.media/index.php?/topic/15144-dashorgru-masternode-khosting/" target="_blank">на форуме bits.media</a> и через ICQ 450420625<br/><br/>
+			Количество размещенных MN: <? echo $mn_online; ?> | Количество свободных мест: <? echo $mn_free; ?> | Минимальный donate лимит: 10%<br/><br/>
+			Техническая поддержка пользователей осуществляется <a href="https://forum.bits.media/index.php?/topic/15144-dashorgru-masternode-khosting/" target="_blank">на форуме bits.media</a><br/>
 			На выбор - два способа оплаты. <i>Оплата через систему пожертвований.</i><br/>
 			Сервис автоматически получает от вас оплату через систему пожертвований.<br/>
 			Вы сами определяете процент оплаты. Этот параметр задается в файле masternode.conf. Например:<br/><br/>
@@ -94,7 +70,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 	
 			Такая запись означает, что мы получаем 10% от дохода вашей мастерноды. Мы постоянно следим за этой настройкой.<br/>
 			Если она окажется меньше установленного лимита, тогда ваша мастернода без предупреждения отключается.<br/>
-			<i><u>После релиза v12 - система пожертвований была выключена</u>. <u>На данный момент, мы не знаем когда она снова заработает</u>.</i><br/><br/>
+			<i><u>После релиза v12 - система пожертвований перестала работать</u>. <u>На данный момент, мы не знаем когда она снова заработает</u>.</i><br/><br/>
 			
 			
 			<i>Второй способ - оплата прямым переводом.</i><br/>
@@ -189,6 +165,8 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 			mn3 127.0.0.3:9999 ...<br/></blockquote>
 			
 			Теперь открываем холодный кошелек, запускаем консоль и включаем мастерноду.<br/><br/>
+			
+			<blockquote style="font-size:14px;">masternode start-alias mn2</blockquote>
 			Если у вас появились какие-либо вопросы или проблемы - свяжитесь с нами <a href="https://forum.bits.media/index.php?/topic/15144-dashorgru-masternode-khosting/" target="_blank">на форуме</a> или в ICQ 450420625 => будем рады помочь.<br/><br/>
 			<table id="mn_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>

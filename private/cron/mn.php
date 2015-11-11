@@ -1,9 +1,9 @@
-<?
-require_once('/var/www/midas/root/private/config.php');
-require_once('/var/www/midas/root/private/init/mysql.php');
-require_once('/var/www/midas/root/private/class/jsonRPCClient.php');
+<?php
+require_once('/var/www/dash/root/private/config.php');
+require_once('/var/www/dash/root/private/init/mysql.php');
+require_once('/var/www/dash/root/private/class/easydarkcoin.php');
+$darkcoin = new Darkcoin('xxx','xxx','localhost','9998');
 
-$darkcoin = new jsonRPCClient('http://xxxx:yyyy@127.0.0.1:9998/');
 $list_nodes = $darkcoin->masternodelist('full');
 $count_nodes = $darkcoin->masternode('count');
 
@@ -14,9 +14,9 @@ $query->execute();
 
 $clean_data = array();
 
-foreach($list_nodes as $key => $value){
+foreach($list_nodes as $key => $value){	
 	$data =  explode(" ", substr(preg_replace('/ {2,}/',' ',$value), 1));
-	$data_ip = explode(":", trim($key));
+	$data_ip = explode(":", trim($data[3]));
 	
 	$query_select = $db->prepare("SELECT * FROM `mn_data` WHERE `ip` = :ip");
 	$query_select->bindParam(':ip', $data_ip[0], PDO::PARAM_STR);

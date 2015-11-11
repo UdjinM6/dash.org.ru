@@ -1,6 +1,6 @@
 <?
-require_once('/var/www/midas/root/private/config.php');
-require_once('/var/www/midas/root/private/init/mysql.php');
+require_once('/var/www/dash/root/private/config.php');
+require_once('/var/www/dash/root/private/init/mysql.php');
 
 function cryptsy_price($id, $name, $dash = null){
 	$i = @json_decode(file_get_contents("http://pubapi1.cryptsy.com/api.php?method=singlemarketdata&marketid=".$id), true);
@@ -23,12 +23,6 @@ function poloniex_price($name){
 	return ['price' => ($i[$name]["highestBid"]+$i[$name]["lowestAsk"])/2, 'vol' => $i[$name]["baseVolume"]];
 }
 
-function bter_price(){
-	$i = json_decode(file_get_contents("http://data.bter.com/api/1/ticker/dash_btc"), true);
-	$j = json_decode(file_get_contents("http://data.bter.com/api/1/ticker/dash_cny"), true);
-	return ['price' => $i["avg"], 'vol' => $i["vol_btc"]+$j["vol_dash"]*$i["avg"]];
-}
-
 function bittrex_price(){
 	$i = json_decode(file_get_contents("https://bittrex.com/api/v1.1/public/getmarketsummaries"), true);
 	foreach($i["result"] as $key => $value){
@@ -37,13 +31,6 @@ function bittrex_price(){
 	}
 	return $v;
 }
-
-function bitfinex_price(){
-	$i = json_decode(file_get_contents("https://api.bitfinex.com/v1/pubticker/drkbtc"), true);
-	$j = json_decode(file_get_contents("https://api.bitfinex.com/v1/pubticker/drkusd"), true);
-	return ['price' => $i["mid"], 'vol' => $i["volume"]+$j["volume"]];
-}
-
 
 function cex_price(){
 	$i = json_decode(file_get_contents("https://cex.io/api/ticker/DRK/BTC"), true);
@@ -63,8 +50,6 @@ function usecryptos_price(){
 $btc = cryptsy_price(2, 'BTC');
 $dash = cryptsy_price(155, 'DRK', 'lolka!');
 $p_dash = poloniex_price('BTC_DASH');
-$b_dash = bter_price();
-$bi_dash = bitfinex_price();
 $ce_dash = cex_price();
 $bit_dash = bittrex_price();
 $use_dash = usecryptos_price();
@@ -74,12 +59,6 @@ $c_price= round($dash['price']*$btc['price'], 2);
 
 $p_val = round($p_dash['vol']*$btc['price']);
 $p_price= round($p_dash['price']*$btc['price'], 2);
-
-$b_val = round($b_dash['vol']*$btc['price']);
-$b_price= round($b_dash['price']*$btc['price'], 2);
-
-$bi_val = round($bi_dash['vol']*$dash['price']*$btc['price']);
-$bi_price= round($bi_dash['price']*$btc['price'], 2);
 
 $ce_val = round($ce_dash['vol']*$dash['price']*$btc['price']);
 $ce_price= round($ce_dash['price']*$btc['price'], 2);
@@ -93,13 +72,11 @@ $use_price= round($use_dash['price']*$btc['price'], 2);
 
 $cryptsy = ['val' => $c_val, 'price' => $c_price, 'url' => 'https://www.cryptsy.com/'];
 $poloniex = ['val' => $p_val, 'price' => $p_price, 'url' => 'https://poloniex.com/'];
-$bter = ['val' => $b_val, 'price' => $b_price, 'url' => 'https://bter.com/'];
-$bitfinex = ['val' => $bi_val, 'price' => $bi_price, 'url' => 'https://bittrex.com/'];
 $cex = ['val' => $ce_val, 'price' => $ce_price, 'url' => 'https://cex.io/'];
 $bittrex = ['val' => $bit_val, 'price' => $bit_price, 'url' => 'https://bittrex.com/'];
 $usecryptos = ['val' => $use_val, 'price' => $use_price, 'url' => 'https://usecryptos.com/'];
 
-$data = [ 'Cryptsy' => $cryptsy, 'Poloniex' => $poloniex, 'BTER' => $bter, 'Bitfinex' => $bitfinex, 'CEX.IO' => $cex, 'Bittrex' => $bittrex, 'UseCryptos' => $usecryptos];
+$data = [ 'Cryptsy' => $cryptsy, 'Poloniex' => $poloniex, 'CEX.IO' => $cex, 'Bittrex' => $bittrex, 'UseCryptos' => $usecryptos];
 arsort($data);
 
 $query = $db->prepare("INSERT INTO `price` (`price`, `time`) VALUES (:price, :time)");
