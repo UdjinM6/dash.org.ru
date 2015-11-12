@@ -2,7 +2,7 @@
 require_once('/var/www/dash/root/private/config.php');
 require_once('/var/www/dash/root/private/init/mysql.php');
 require_once('/var/www/dash/root/private/class/easydarkcoin.php');
-$darkcoin = new Darkcoin('xxx','xxx','localhost','9998');
+$darkcoin = new Darkcoin($config['dash_user'], $config['dash_pass'], $config['dash_host'], $config['dash_port']);
 
 $list_nodes = $darkcoin->masternodelist('full');
 $count_nodes = $darkcoin->masternode('count');

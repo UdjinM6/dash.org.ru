@@ -1,9 +1,9 @@
 <?php
-require_once('/var/www/dash/root/private/class/easydarkcoin.php');
 require_once('/var/www/dash/root/private/config.php');
 require_once('/var/www/dash/root/private/init/mysql.php');
 require_once('/var/www/dash/root/private/func.php');
-$darkcoin = new Darkcoin('xxx','xxx','localhost','9998');
+require_once('/var/www/dash/root/private/class/easydarkcoin.php');
+$darkcoin = new Darkcoin($config['dash_user'], $config['dash_pass'], $config['dash_host'], $config['dash_port']);
 $price = 3;
 
 // Получаем массив и делаем цикл

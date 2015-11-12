@@ -1,14 +1,13 @@
 <?php
-// Standard inclusions     
-require_once("/var/www/midas/root/private/class/pData.class.php"); 
-require_once("/var/www/midas/root/private/class/pDraw.class.php"); 
-require_once("/var/www/midas/root/private/class/pPie.class.php"); 
-require_once("/var/www/midas/root/private/class/pImage.class.php"); 
-require_once('/var/www/midas/root/private/class/jsonRPCClient.php');
-require_once('/var/www/midas/root/private/config.php');
-require_once('/var/www/midas/root/private/init/mysql.php');
+require_once('/var/www/dash/root/private/config.php');
+require_once('/var/www/dash/root/private/init/mysql.php');
+require_once('/var/www/dash/root/private/class/easydarkcoin.php');
+require_once('/var/www/dash/root/private/class/pData.class.php'); 
+require_once('/var/www/dash/root/private/class/pDraw.class.php'); 
+require_once('/var/www/dash/root/private/class/pPie.class.php'); 
+require_once('/var/www/dash/root/private/class/pImage.class.php'); 
 
-$darkcoin = new jsonRPCClient('http://xxxx:yyyy@127.0.0.1:9998/');
+$darkcoin = new Darkcoin($config['dash_user'], $config['dash_pass'], $config['dash_host'], $config['dash_port']);
 
 while(1){
 	drk_start();
@@ -17,7 +16,7 @@ while(1){
 
 function drk_start(){
 	global $db, $darkcoin;
-	$drk_price = file_get_contents("http://midas-bank.com/price.php?name=DRK");
+	$drk_price = file_get_contents("http://dash.org.ru/price.php?name=DRK");
 	$hash_block = $darkcoin->getbestblockhash();
 	$info_block = $darkcoin->getblock($hash_block);
 	$tx = $info_block["tx"][0];
@@ -120,7 +119,7 @@ function drk_start(){
 
 
 	/* Write the picture title */  
-	$myPicture->setFontProperties(array("FontName"=>"/var/www/midas/root/fonts/verdana.ttf","FontSize"=>14)); 
+	$myPicture->setFontProperties(array("FontName"=>"/var/www/dash/root/fonts/verdana.ttf","FontSize"=>14)); 
 	$myPicture->drawText(0,20,"At block: $last_block",array("R"=>0,"G"=>0,"B"=>0));
 	$myPicture->drawText(210,24,"Difficulty: $diff",array("R"=>0,"G"=>0,"B"=>0));
 	$myPicture->drawText(390,24,"Avg difficulty: ".round($avg_diff),array("R"=>0,"G"=>0,"B"=>0));
@@ -134,11 +133,11 @@ function drk_start(){
 	$myPicture->setShadow(TRUE,array("X"=>2,"Y"=>2,"R"=>0,"G"=>0,"B"=>0,"Alpha"=>10)); 
 
 	/* Draw a splitted pie chart */
-	$myPicture->setFontProperties(array("FontName"=>"/var/www/midas/root/fonts/tahoma.ttf","FontSize"=>10));
+	$myPicture->setFontProperties(array("FontName"=>"/var/www/dash/root/fonts/tahoma.ttf","FontSize"=>10));
 	$PieChart->draw3DPie(340, 220,array("WriteValues"=>TRUE, "ValueR"=>0,"ValueG"=>0,"ValueB"=>0, "Radius"=>225, "DataGapAngle"=>4, "DataGapRadius"=>6, "DrawLabels"=>TRUE,"Border"=>TRUE)); 
 
 	/* Render the picture (choose the best way) */ 
-	$myPicture->Render("/var/www/midas/root/stat/drk.png");
+	$myPicture->Render("/var/www/dash/root/stat/drk.png");
 	
 
 unset($data);

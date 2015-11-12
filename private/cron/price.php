@@ -1,12 +1,12 @@
 <?
-require_once('/var/www/midas/root/private/config.php');
-require_once('/var/www/midas/root/private/init/mysql.php');
+require_once('/var/www/dash/root/private/config.php');
+require_once('/var/www/dash/root/private/init/mysql.php');
 
 function cryptsy_price($id, $name){
-	$i = @json_decode(file_get_contents("http://pubapi1.cryptsy.com/api.php?method=singlemarketdata&marketid=".$id), true);
+	$i = @json_decode(file_get_contents('http://pubapi1.cryptsy.com/api.php?method=singlemarketdata&marketid='.$id), true);
 	$pubapi = 'pubapi1';
 	if($i == NULL){
-		$i = json_decode(file_get_contents("http://pubapi2.cryptsy.com/api.php?method=singlemarketdata&marketid=".$id), true);
+		$i = json_decode(file_get_contents('http://pubapi2.cryptsy.com/api.php?method=singlemarketdata&marketid='.$id), true);
 		$pubapi = 'pubapi2';
 	}
 	return ['price' => $i["return"]["markets"][$name]["lasttradeprice"], 'vol' => $i["return"]["markets"][$name]["volume"]];
@@ -17,7 +17,7 @@ $dash = cryptsy_price(155, 'DRK');
 
 $usd_dash = round($btc['price']*$dash['price'], 2);
 
-$cur_cb = file_get_contents ("http://www.cbr.ru/scripts/XML_daily.asp");
+$cur_cb = file_get_contents ('http://www.cbr.ru/scripts/XML_daily.asp');
 preg_match_all("#<Valute ID=\"R01235\">.*<CharCode>(.*)</CharCode>.*<Value>(.*)</Value>.*</Valute>#sU", $cur_cb, $_usd);  
 $usd = round(str_replace(',', '.', $_usd[2][0]), 2);
 
