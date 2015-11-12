@@ -14,6 +14,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" language="javascript" src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css" />
 	<script type="text/javascript" charset="utf-8"> $(document).ready(function() { $('#mn_table').dataTable({ "order": [[ 2, "desc" ]] }); }); </script>
 	<script type="text/javascript" charset="utf-8"> $(document).ready(function() { $('#pay_table').dataTable({ "order": [[ 3, "desc" ]] }); }); </script>
 	<link rel="stylesheet" href="/css/default.css">
@@ -25,6 +26,11 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 	<style>.tweaked-margin { margin-right: 30px; } </style>
 </head>
 <body>
+<div class="github-fork-ribbon-wrapper right">
+	<div class="github-fork-ribbon">
+		<a href="https://github.com/poiuty/dashpay.org.ru">Fork me on GitHub</a>
+	</div>
+</div>
 <div id="myModal" class="modal fade" data-backdrop="static">
 	<div class="modal-dialog">
 		<div class="modal-content">

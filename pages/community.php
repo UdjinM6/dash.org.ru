@@ -8,9 +8,15 @@
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css" />
 	<style>.tweaked-margin { margin-right: 30px; }</style>
 </head>
 <body>
+<div class="github-fork-ribbon-wrapper right">
+	<div class="github-fork-ribbon">
+		<a href="https://github.com/poiuty/dashpay.org.ru">Fork me on GitHub</a>
+	</div>
+</div>
 <? echo $navi; ?>
 <div class="container">
 	<div class="row">

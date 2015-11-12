@@ -227,12 +227,18 @@ for ($i=1; $i<50; $i++) {
 	<script src="//code.highcharts.com/modules/exporting.js"></script>
 	<script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" language="javascript" src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css" />
 	<script type="text/javascript" charset="utf-8"> $(document).ready(function() { $('#example').dataTable({ "order": [[ 3, "desc" ]] }); }); </script>
 	<script type="text/javascript" charset="utf-8"> $(document).ready(function() { $('#mn_table').dataTable({ "order": [[ 4, "desc" ]] }); }); </script>
 	<script type="text/javascript" charset="utf-8"> $(document).ready(function() { $('#blocks').dataTable({ "order": [[ 0, "desc" ]] }); }); </script>
 	<style type="text/css"> .table td, th { text-align: center; } </style>
 </head>
 <body>
+<div class="github-fork-ribbon-wrapper right">
+	<div class="github-fork-ribbon">
+		<a href="https://github.com/poiuty/dashpay.org.ru">Fork me on GitHub</a>
+	</div>
+</div>
 <? echo $navi; ?>
 <div class="container">
 	<div role="tabpanel">
