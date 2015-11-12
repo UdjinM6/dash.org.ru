@@ -1,13 +1,13 @@
 <?
-require_once($_SERVER['DOCUMENT_ROOT'].'/private/class/easydarkcoin.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/config.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/init/mysql.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/func.php');
-$darkcoin = new Darkcoin('xxx','xxx','localhost','9998');
+require_once($_SERVER['DOCUMENT_ROOT'].'/private/class/easydarkcoin.php');
+$darkcoin = new Darkcoin($config['dash_user'], $config['dash_pass'], $config['dash_host'], $config['dash_port']);
 $info = $darkcoin->masternode('list', 'addr');
 $donate = "XkB8ySpiqyVHeAXHsNhU83mUJ7Jd3CJaqW:10";
 $name = "mn1";
-$auth = "secret";
+$auth = "xxxx";
 
 function send_do($command, $ip, $key){
 	global $auth, $db;
@@ -103,7 +103,9 @@ $query->execute();
 if($query->rowCount() != 1){
 
 	// Проверим, есть ли свободные места
-	$query = $db->query("SELECT * FROM `hosting`");
+	$check_time = time();
+	$query = $db->prepare("SELECT * FROM `hosting` WHERE `pay_time` < :time");
+	$query->bindParam(':time', $check_time, PDO::PARAM_STR);
 	$query->execute();
 	while($row=$query->fetch()){
 		if(check_mn($row['ip']) == 'NO' && time()-60*60*24 > $row['last'] && time()-60*60*12 > $row['time']){
@@ -148,13 +150,15 @@ if($query->rowCount() != 1){
 	}
 
 	$mn_key = $darkcoin->masternode('genkey');
+	$ptime = time()+60*60*24;
 
-	$query = $db->prepare("UPDATE `hosting` SET `txid` = :txid, `address` = :address, `time` = :time, `out` = :out, `key` = :key WHERE `ip` = :ip");
+	$query = $db->prepare("UPDATE `hosting` SET `txid` = :txid, `address` = :address, `time` = :time, `out` = :out, `key` = :key, `pay_time` = :ptime WHERE `ip` = :ip");
 	$query->bindParam(':txid', $tx, PDO::PARAM_STR);
 	$query->bindParam(':address', $address, PDO::PARAM_STR);
 	$query->bindParam(':time', time(), PDO::PARAM_STR);
 	$query->bindParam(':out', $outputs, PDO::PARAM_STR);
 	$query->bindParam(':key', $mn_key, PDO::PARAM_STR);
+	$query->bindParam(':ptime', $ptime, PDO::PARAM_STR);
 	$query->bindParam(':ip', $ip, PDO::PARAM_STR);
 	$query->execute();
 }else{

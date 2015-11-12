@@ -1,9 +1,9 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'].'/private/class/easydarkcoin.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/config.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/init/mysql.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/func.php');
-$darkcoin = new Darkcoin('xxx','xxx','localhost','9998');
+require_once($_SERVER['DOCUMENT_ROOT'].'/private/class/easydarkcoin.php');
+$darkcoin = new Darkcoin($config['dash_user'], $config['dash_pass'], $config['dash_host'], $config['dash_port']);
 $info = $darkcoin->masternode('list', 'addr');
 
 function check_mn($ip){
