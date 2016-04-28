@@ -1,6 +1,8 @@
 <?php
 require_once('/home/dash/restart/easydarkcoin.php');
 $mn_ips = array_diff(scandir('/home/dash/data/'), array('..', '.'));
+$json = file_get_contents('http://dash.org.ru/public/mn.php?last=111');
+$arr = json_decode($json, true);
 
 function log_restart($ip, $message){
 	$file = '/home/dash/restart/restart.log';
@@ -32,5 +34,14 @@ foreach ($mn_ips as $value) {
 	$i = file_get_contents("/home/dash/data/$value/dash.conf");
 	preg_match("/rpcport=(.*)/",$i, $rpcport);
 	$darkcoin = new Darkcoin('xxxx','xxxx','localhost', $rpcport[1]);
-	echo "$value $rpcport[1] => ".check_mn($value)."\n";
+	$status = check_mn($value);
+	echo "$value $rpcport[1] => $status => ".time()." ".@$arr[$value]."\n";
+	if(!empty($arr[$value])){
+		if(time() > $arr[$value]+1000 && $status == 'work'){
+			shell_exec("dash-cli -datadir=/home/dash/data/$ip stop > /dev/null 2>/dev/null &");
+			echo "$value $rpcport[1] => ".time()." > $arr[$value] restart";
+			log_restart($value, "no ping, ".time()." > $arr[$value]");
+		}
+	}
+	unset($status);
 }
