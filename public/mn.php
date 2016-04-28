@@ -53,6 +53,20 @@ $mn_all = $query->rowCount();
 die;
 }
 
+if(!empty($_GET['last'])){
+	$query = $db->query("SELECT * FROM `hosting`");
+	$query->execute();	
+	while($row=$query->fetch()){
+		$info = null;
+		$info = $darkcoin->masternodelist('lastseen', $row['txid']);
+		if(empty($info)) continue;
+		foreach ($info as $value) {
+			$x[$row['ip']] = $value;
+		}
+	}
+	die(json_encode($x));
+}
+
 if(!empty($_GET['control'])){
 	sleep(1);
 	if(empty($_POST['key'])) die('no_key');
