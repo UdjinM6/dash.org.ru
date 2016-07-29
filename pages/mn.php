@@ -1,4 +1,4 @@
-<?
+<?php
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 ?>
@@ -60,28 +60,12 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 			<h3>Информация</h3>
 			<div class="alert alert-danger" role="alert">
 			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			  <b>Неоплаченные мастерноды будут автоматически выключены 10 сентября</b>.<br/><br/>
-			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			  <a href="https://github.com/poiuty/dashpay.org.ru/blob/master/private/cron/pay.php" target="_blank">Сделал прием платежей</a>. Читайте полный анонс <a href="https://forum.bits.media/index.php?/topic/15144-dashorgru-masternode-khosting" target="_blank">в этой теме</a>.<br/><br/>
-			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			  Проверяйте статус работы мастерноды <a href="http://dashninja.pl" target="_blank">на сайте dashninja.pl</a> => на нашем сайте (сейчас) этот список не обновляется.
+			  <b>Мастерноды 5.196.111.21, 92.222.206.198 => отключены за неуплату</b>.
 			</div>
 			
-			Количество размещенных MN: <? echo $mn_online; ?> | Количество свободных мест: <? echo $mn_free; ?> | Минимальный donate лимит: 10%<br/><br/>
+			Количество размещенных MN: <? echo $mn_online; ?> | Количество свободных мест: <? echo $mn_free; ?><br/><br/>
 			Техническая поддержка пользователей осуществляется <a href="https://forum.bits.media/index.php?/topic/15144-dashorgru-masternode-khosting/" target="_blank">на форуме bits.media</a><br/>
-			На выбор - два способа оплаты. <i>Оплата через систему пожертвований.</i><br/>
-			Сервис автоматически получает от вас оплату через систему пожертвований.<br/>
-			Вы сами определяете процент оплаты. Этот параметр задается в файле masternode.conf. Например:<br/><br/>
-			<blockquote style="font-size:14px;">XkB8ySpiqyVHeAXHsNhU83mUJ7Jd3CJaqW:10</blockquote>
-	
-			Такая запись означает, что мы получаем 10% от дохода вашей мастерноды. Мы постоянно следим за этой настройкой.<br/>
-			Если она окажется меньше установленного лимита, тогда ваша мастернода без предупреждения отключается.<br/>
-			<i><u>После релиза v12 - система пожертвований перестала работать</u>. <u>На данный момент, мы не знаем когда она снова заработает</u>.</i><br/><br/>
-			
-			
-			<i>Второй способ - оплата прямым переводом.</i><br/>
-			
-			Продление срока будет произведено на основе фактически присланной вами суммы, из расчёта "<i>1 DASH за каждые 10 дней хостинга</i>".<br/>
+			Продление срока будет произведено на основе фактически присланной вами суммы, из расчёта "<i>0.33 DASH за каждые 10 дней хостинга</i>".<br/>
 			1. Введите в поле поиска адрес вашей мастерноды.<br/>
 			2. Скопируйте соответствующий ей адрес для оплаты хостинга и произведите оплату.<br/>
 			3. Через некоторое время снова проверьте список и убедитесь что продление состоялось.<br/><br/>
@@ -90,7 +74,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 				<thead>
 					<tr>
 						<th><center>IP</center></th>
-						<th><center>Кошелек</center></th>
+						<th><center>Masternode</center></th>
 						<th><center>Куда оплачивать</center></th>
 						<th><center>Оплачено до</center></th>
 					</tr>
@@ -116,7 +100,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 			<br/><br/>
 			Если все прошло успешно, и вы скачали файл <u>masternode.conf</u>, то положите его в папку <i>%appdata%/Roaming/Dash/</i><br/>
 			Перезагрузите ваш DASH кошелек. Откройте консоль и запустите мастерноду командой:<br/><br/>
-			<blockquote style="font-size:14px;">masternode start-many</blockquote>
+			<blockquote style="font-size:14px;">masternode start-alias mn1</blockquote>
 			
 			Если вы увидели "<u>Successfully started 1 masternodes</u>" - то все отлично.<br/>
 			Не выключайте кошелек минут 10-20. Откройте через текстовый редактор файл <u>masternode.conf</u> - файл имеет следующую структуру:<br/><br/>
@@ -129,8 +113,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 			
 			Также вы можете проверять статус работы вашей ноды на нашем сайте <a href="http://dash.org.ru/pages/stats.php#masternode" target="_blank">dash.org.ru</a>.<br/>
 			Для этого в поиске укажите IP вашей мастерноды или адрес вашего кошелька (1000DASH).<br/>
-			Альтернативный ресурс для проверки вашей мастерноды, общего количества узлов в сети и объема вознаграждения  dashninja.pl.<br/>
-			<br/>
+			Альтернативный ресурс для проверки вашей мастерноды, общего количества узлов в сети и объема вознаграждения  dashninja.pl.
 			<hr>
 			
 			<h3>Управление и использование</h3>
@@ -147,6 +130,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 			<br/>
 			
 			Примерно раз в 5 дней на адрес вашей мастерноды будет поступать выплата. Ее можно использовать для ваших нужд.<br/>
+			Внимание, <u>мы сами не производим никаких выплат</u>! Выплаты начисляет сама сеть. Вы можете посмотреть алгоритм <a href="https://github.com/dashpay/dash" target="_blank">в исходном коде</a>.<br/> 
 			Будьте внимательны! Если вы вместе с вознаграждением снимете часть монет, которые нужны для работы мастерноды, то она выключится.<br/>
 			Чтобы этого не произошло, с помощью функции <a href="http://www.youtube.com/watch?v=Z12GNiBJqjQ" target="_blank">контроль монет</a>, заблокируйте 1000 DASH мастерноды.<br/>
 			Теперь всё, что выше 1000 можете переводить на свой основной адрес.<br/><br/>
@@ -156,7 +140,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 			Напоминание №1. При использовании нашего Мастернод-хостинг сервиса, вы не передаёте и не сообщаете никакой информации, кроме адреса вашей Мастерноды.<br/>
 			А значит ваши 1000 DASH всё время находятся в безопасности, под вашим единоличным контролем.<br/><br/>
 			Напоминание №2. При запуска Мастерноды - 1000 DASH никуда не тратятся и не блокируются.<br/>
-			Вы можете ими в любой момент воспользоваться. Однако, это повлечёт за собой выключение вашей Мастерноды.<br/><br/>
+			Вы можете ими в любой момент воспользоваться. Однако, это повлечёт за собой выключение вашей Мастерноды.
 			
 			<hr>
 			
@@ -173,12 +157,12 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 			Теперь открываем холодный кошелек, запускаем консоль и включаем мастерноду.<br/><br/>
 			
 			<blockquote style="font-size:14px;">masternode start-alias mn2</blockquote>
-			Если у вас появились какие-либо вопросы или проблемы - свяжитесь с нами <a href="https://forum.bits.media/index.php?/topic/15144-dashorgru-masternode-khosting/" target="_blank">на форуме</a> или в ICQ 450420625 => будем рады помочь.<br/><br/>
+			Если у вас появились какие-либо вопросы или проблемы - свяжитесь с нами <a href="https://forum.bits.media/index.php?/topic/15144-dashorgru-masternode-khosting/" target="_blank">на форуме</a> => будем рады помочь.<br/><br/>
 			<table id="mn_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>
 					<tr>
 						<th><center>IP</center></th>
-						<th><center>Кошелек</center></th>
+						<th><center>Masternode</center></th>
 						<th><center>Последний раз видели</center></th>
 					</tr>
 				</thead>

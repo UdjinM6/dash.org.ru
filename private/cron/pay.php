@@ -1,14 +1,12 @@
 <?php
-require_once('/var/www/dash/root/private/config.php');
-require_once('/var/www/dash/root/private/init/mysql.php');
-require_once('/var/www/dash/root/private/func.php');
-require_once('/var/www/dash/root/private/class/easydarkcoin.php');
+require_once('/var/www/dash.org.ru/site/private/config.php');
+require_once('/var/www/dash.org.ru/site/private/init/mysql.php');
+require_once('/var/www/dash.org.ru/site/private/class/easydarkcoin.php');
 $darkcoin = new Darkcoin($config['dash_user'], $config['dash_pass'], $config['dash_host'], $config['dash_port']);
-$price = 3;
+$price = 1; // 1/3 => 0.33 (10d)
 
 // Получаем массив и делаем цикл
 $a = $darkcoin->listtransactions("*", 1000);
-
 for ($i=0; count($a) > $i; $i++){
 	if($a["$i"]["category"] != "receive" || $a["$i"]["confirmations"] < 6 || $a["$i"]["amount"] < 0.1) continue;
 	

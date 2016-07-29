@@ -1,16 +1,32 @@
-<? require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php'); ?>
+<?php
+require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/mn_head.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>DASH</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css" />
-  <meta name='yandex-verification' content='742a6c088fb60ae6' />
+	<title>DASH: MasterNode хостинг</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css" />
+	<script type="text/javascript">function googleTranslateElementInit() { new google.translate.TranslateElement({pageLanguage: 'ru', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');}</script>
+	<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	<script type="text/javascript" charset="utf-8"> $(document).ready(function() { $('#mn_table').dataTable({ "order": [[ 2, "desc" ]] }); }); </script>
+	<script type="text/javascript" charset="utf-8"> $(document).ready(function() { $('#pay_table').dataTable({ "order": [[ 3, "desc" ]] }); }); </script>
+	<link rel="stylesheet" href="/css/default.css">
+	<script src="/js/highlight.pack.js"></script>
+	<script src="/js/alertify.js"></script>
+	<link rel="stylesheet" href="/css/alertify.core.css">
+	<link rel="stylesheet" href="/css/alertify.bootstrap.css">
+	<script>hljs.initHighlightingOnLoad();</script>
+	<style>.tweaked-margin { margin-right: 30px; } </style>
 </head>
 <body>
 <div class="github-fork-ribbon-wrapper right">
@@ -18,96 +34,60 @@
 		<a href="https://github.com/poiuty/dashpay.org.ru">Fork me on GitHub</a>
 	</div>
 </div>
+<div id="myModal" class="modal fade" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<center> <h4 class="modal-title">Пожалуйста, подождите.</h4> </center>
+			</div>
+			<div id="modal_info" class="modal-body"></div>
+		</div>
+	</div>
+</div>
 <?	echo $navi; ?>
 <div class="container">
-  <div class="jumbotron">
-	  <center><iframe width="640" height="360" src="https://www.youtube.com/embed/W1RGl5Q84_s" frameborder="0" allowfullscreen></iframe></center>
-  <center>
-    <h3>DASH – это приватная криптовалюта с открытым <a href="https://github.com/dashpay/dash" target="_blank">исходным кодом</a>.</h3>      
-    <p>Позволяет производить платежи мгновенно, без ограничений и комиссии.<br/> Сохраняя при этом такую же финансовую анонимность, как при расчётах наличным деньгам.</p></center>
-  </div>
-<div class="row">
-<div class="col-md-12">
-				<div class="col-md-4">
-					<center>
-					<i class="fa fa-eye-slash fa-5x"></i>
-					<h4>ПРИВАТНОСТЬ</h4>
-					Благодаря технологии Darksend, никто не может следить за вашими транзакциями и деньгами.
-					
-					</center>
+	<div class="row">
+		<div class="col-md-12 ">
+			<div style="width: 100%; padding-bottom:65px;">
+				<div style="float: left;">
+					<h3>Install masternode</h3>
 				</div>
-				
-								<div class="col-md-4">
-					<center>
-					<i class="fa fa-clock-o fa-5x"></i>
-					<h4>СКОРОСТЬ</h4>
-					 Благодаря технологии InstantX, переводы приходят получателям мгновенно.
-					</center>
+				<div class="pull-right" style=" padding-right: 75px; padding-top: 19px;">
+					<div id="google_translate_element"></div>
 				</div>
-				
-								<div class="col-md-4">
-					<center>
-					<i class="fa fa-lock fa-5x"></i>
-					<h4>БЕЗОПАСНОСТЬ</h4>
-					Шифрование и 2-х ранговая архитектура сети обеспечивают абсолютную безопасность.
-					</center>
-				</div>
-				</div>
-				
-				<div class="col-md-12" style="padding-top: 20px;">
-								<div class="col-md-4">
-					<center>
-					<i class="fa fa-money fa-5x"></i>
-					<h4>НИЗКИЕ КОМИССИИ</h4>
-					Комиссии значительно меньше, чем при банковских и карточных переводах – часто даже бесплатно.
-					</center>
-				</div>
-				
-				<div class="col-md-4">
-					<center>
-					<i class="fa fa-users fa-5x"></i>
-					<h4>ДЕЦЕНТРАЛИЗАЦИЯ</h4>
-					DASH работает через децентрализованную сеть. Платежи совершаются без контроля и посредников.
-					</center>
-				</div>
-				
-				<div class="col-md-4">
-					<center>
-					<i class="fa fa-globe fa-5x"></i>
-					<h4>БЕЗГРАНИЧНОСТЬ</h4>
-					Вы можете получать и отправлять деньги из любой точки мира – кому угодно и без ограничений.
-					</center>
-				</div>
-
 			</div>
-
+			Запустите DASH кошелек и откройте консоль. Создайте новый DASH адрес.<br/><br/>
+			<blockquote style="font-size:14px;">getnewaddress</blockquote>
+			Вы увидите адрес. Отправьте на него 1000 DASH с помощью команды.<br/><br/>
+			<blockquote style="font-size:14px;">sendtoaddress ваш_новый_адрес 1000</blockquote>
+			Вы увидите номер транзакции, через 50 минут напишите этот номер и нажмите кнопку  "<u>получить masternode.conf</u>"<br/>
+			Если ваш кошелек зашифрован (установлен пароль), терминал выдаст ошибку, тогда вам надо будет <a href="http://www.youtube.com/watch?feature=player_detailpage&v=VEaRjVwxlxw#t=245" target="_blank">разблокировать кошелек</a> и повторить отправку 1000 DASH.<br/><br/>
+			
+			<input id="txid" class="form-control" placeholder="Номер вашей транзакции" type="text"><br/>
+			<button id="setup" type="submit" class="form-control btn btn-default">Получить masternode.conf</button>
+			
+			<br/><br/>
+			Если все прошло успешно, и вы скачали файл <u>masternode.conf</u>, то положите его в папку <i>%appdata%/Roaming/Dash/</i><br/>
+			Перезагрузите ваш DASH кошелек. Откройте консоль и запустите мастерноду командой:<br/><br/>
+			<blockquote style="font-size:14px;">masternode start-alias mn1</blockquote>
+			
+			Если вы увидели "<u>Successfully started 1 masternodes</u>" - то все отлично. Не выключайте кошелек. Через 10~15 минут зайдите на сайт <a href="https://dashninja.pl" target="_blank">dashninja.pl</a>.<br/>
+			Найдите таблицу (список мастернод). В поле поиск напишите адрес (туда вы отправили 1000 DASH). Если нашли свою masternode - можно выключить DASH кошелек.<br/><br/>
+			
+			Чтобы добавить еще MN - повторите действия. Когда вы получите новый файл masternode.conf => его нужно совместить со старым.<br/>
+			С помощью текст-редактора откройте оба файла. Скопируйте содержимое нового файла в старый. Например, новый файл.
+			<blockquote style="font-size:14px;"><strong>mn1</strong> z.z.z.z:9999 ...</blockquote>
+			
+			Старый файл.<br/>
+			<blockquote style="font-size:14px;">mn1 x.x.x.x:9999 ...</blockquote>
+			
+			Копируем из нового в старый (<i>%appdata%/Roaming/Dash/masternode.conf</i>), в итоге получается.
+			<blockquote style="font-size:14px;">mn1 x.x.x.x:9999 ...<br/>
+			<strong>mn2</strong> z.z.z.z:9999 ...</blockquote>
+			<hr>
+		</div>
+	</div>
 </div>
-</div><br/><br/>
-
+<script src="//dash.org.ru/js/mn.js"></script>
 </body>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-(function (d, w, c) {
-    (w[c] = w[c] || []).push(function() {
-        try {
-            w.yaCounter31626488 = new Ya.Metrika({id:31626488,
-                    clickmap:true,
-                    accurateTrackBounce:true});
-        } catch(e) { }
-    });
-
-    var n = d.getElementsByTagName("script")[0],
-        s = d.createElement("script"),
-        f = function () { n.parentNode.insertBefore(s, n); };
-    s.type = "text/javascript";
-    s.async = true;
-    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
-
-    if (w.opera == "[object Opera]") {
-        d.addEventListener("DOMContentLoaded", f, false);
-    } else { f(); }
-})(document, window, "yandex_metrika_callbacks");
-</script>
-<noscript><div><img src="//mc.yandex.ru/watch/31626488" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
 </html>

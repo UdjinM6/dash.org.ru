@@ -1,10 +1,12 @@
-<?
+<?php
 $config['db_host'] = 'localhost';
-$config['db_user'] = 'xxxx';
-$config['db_name'] = 'xxxx';
-$config['db_passwd'] = 'xxxx';
+$config['db_user'] = 'darkcoin';
+$config['db_name'] = 'darkcoin';
+$config['db_passwd'] = 'xxxxx';
 
-$config['dash_user'] = 'xxxx';
-$config['dash_pass'] = 'xxxx';
+$config['dash_user'] = 'xxxxx';
+$config['dash_pass'] = 'xxxxx';
 $config['dash_host'] = 'localhost';
-$config['dash_port'] = '9998';
+$config['dash_port'] = '9000';
+
+$config['api']	= "xxxxx";

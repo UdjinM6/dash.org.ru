@@ -1,16 +1,12 @@
-<?
+<?php
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/config.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/init/mysql.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/private/func.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/class/easydarkcoin.php');
 $darkcoin = new Darkcoin($config['dash_user'], $config['dash_pass'], $config['dash_host'], $config['dash_port']);
 $info = $darkcoin->masternode('list', 'addr');
-$donate = "XkB8ySpiqyVHeAXHsNhU83mUJ7Jd3CJaqW:10";
-$name = "mn1";
-$auth = "xxxx";
 
 function send_do($command, $ip, $key){
-	global $auth, $db;
+	global $config, $db;
 	
 	$query = $db->prepare("SELECT * FROM `hosting` WHERE `ip` = :ip");
 	$query->bindParam(':ip', $ip, PDO::PARAM_STR);
@@ -24,7 +20,7 @@ function send_do($command, $ip, $key){
 	$row = $query->fetch();
 	$api = $row['api'];
 	
-	return file_get_contents("http://$api/index.php?do=$command&ip=$ip&key=$key&auth=$auth");
+	return file_get_contents("http://$api/index.php?do=$command&ip=$ip&key=$key&auth={$config['api']}");
 }
 
 function check_mn($ip){
@@ -96,10 +92,10 @@ if(!empty($_GET['control'])){
 }
 
 if(!empty($_GET['download']) && $_GET['download'] == 'getfile'){
-	header ("Accept-Ranges: bytes");
-	header ("Connection: close");
-	header ("Content-Transfer-Encoding: binary");
-	header ("Content-Disposition: attachment; filename=masternode.conf");
+	header("Accept-Ranges: bytes");
+	header("Connection: close");
+	header("Content-Transfer-Encoding: binary");
+	header("Content-Disposition: attachment; filename=masternode.conf");
 	echo base64_decode(urldecode($_GET['data']));
 	die;
 }
@@ -118,7 +114,7 @@ if($query->rowCount() != 1){
 
 	// Проверим, есть ли свободные места
 	$check_time = time();
-	$query = $db->prepare("SELECT * FROM `hosting` WHERE `pay_time` < :time");
+	$query = $db->prepare("SELECT * FROM `hosting` WHERE `pay_time` < :time OR `pay_time` IS NULL");
 	$query->bindParam(':time', $check_time, PDO::PARAM_STR);
 	$query->execute();
 	while($row=$query->fetch()){
@@ -128,13 +124,16 @@ if($query->rowCount() != 1){
 		}
 	}
 	
-	if(empty($ip)) die('full');
+	if(empty($ip)){
+		 die('full');
+	}
 
 	$raw_tx = $darkcoin->getrawtransaction($tx);
 	if(empty($raw_tx)) die('wrong_txid');
 
 	$decode_tx = $darkcoin->decoderawtransaction($raw_tx);
-	if($decode_tx["vout"]['0']["value"] != 1000 && $decode_tx["vout"]['1']["value"] != 1000) die($decode_tx["vout"]['1']["value"]);
+	if($decode_tx["vout"]['0']["value"] != 1000 && $decode_tx["vout"]['1']["value"] != 1000) die('not_1000_DASH_TX');
+	//die($decode_tx["vout"]['1']["value"]);
 	
 	if($decode_tx["vout"]['0']["value"] == 1000){
 		$outputs = $decode_tx["vout"]['0']["n"];
@@ -185,8 +184,7 @@ if($query->rowCount() != 1){
 	if(check_mn($ip) == 'OK' || time()-60*60*24 > $row['time']) die('mn_work');
 }
 
-if(empty(send_do('setup', $ip, $mn_key))){
-	echo urlencode(base64_encode("$name $ip:9999 $mn_key $tx $outputs $donate"));
-}else{
+if(empty(send_do('setup', $ip, $mn_key)))
+	echo urlencode(base64_encode("mn1 $ip:9999 $mn_key $tx $outputs"));
+else
 	echo 'error';
-}

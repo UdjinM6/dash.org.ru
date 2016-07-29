@@ -1,106 +1,41 @@
-$("#log").click(function(e) {
-	$(this).blur();
-	e.preventDefault();
-	key = $('input[id=private_key]').val();
-	$('#myModal').modal('show');
-	$.post("//dash.org.ru/public/mn.php?control=log", { key: key }, function( data ){
-		$('#myModal').modal('hide');
-		if(data == 'no_key'){
-			alertify.error("Неправильный ключ");
-			return;
-		}
-		window.location = data;
-	});
-});
-
-$("#info").click(function(e) {
-	$(this).blur();
-	e.preventDefault();
-	key = $('input[id=private_key]').val();
-	$('#myModal').modal('show');
-	$.post("//dash.org.ru/public/mn.php?control=info", { key: key }, function( data ){
-		$('#myModal').modal('hide');
-		if(data == 'no_key'){
-			alertify.error("Неправильный ключ");
-			return;
-		}
-		window.location = data;
-	});
-});
-
-$("#restart").click(function(e) {
-	$(this).blur();
-	e.preventDefault();
-	key = $('input[id=private_key]').val();
-	$('#myModal').modal('show');
-	$.post("//dash.org.ru/public/mn.php?control=restart", { key: key }, function( data ){
-		$('#myModal').modal('hide');
-		if(data == 'no_key'){
-			alertify.error("Неправильный ключ");
-			return;
-		}
-		alertify.success("Готово");
-	});
-});
-
-$("#status").click(function(e) {
-	$(this).blur();
-	e.preventDefault();
-	key = $('input[id=private_key]').val();
-	$('#myModal').modal('show');
-	$.post("//dash.org.ru/public/mn.php?control=status", { key: key }, function( data ){
-		$('#myModal').modal('hide');
-		if(data == 'no_key'){
-			alertify.error("Неправильный ключ");
-			return;
-		}
-		if(data == 'OK'){
-			alertify.success("Ваша MN работает");
-			return;
-		}else{
-			alertify.error("Ваша MN не работает");
-			return;
-		}
-	});
-});
-
 $("#setup").click(function(e) {
 	$(this).blur();
 	e.preventDefault();
 	txid = $('input[id=txid]').val();
 	$('#myModal').modal('show');
 	$.post("//dash.org.ru/public/mn.php", { txid: txid }, function( data ){
+		//console.log(data);
 		$('#myModal').modal('hide');
 		if(data == 'empty'){
-			alertify.error("Пустое значение");
+			alertify.error("Empty value");
 			return;
 		}
 		if(data == 'wrong_txid'){
-			alertify.error("Неправильный номер транзакции");
+			alertify.error("Wrong txid");
 			return;
 		}
 		if(data == 'full'){
-			alertify.error("Нет мест");
+			alertify.error("No free slots");
 			return;
 		}
 		if(data == 'not_15_conf'){
-			alertify.error("Дождитесь 15 подтверждений");
+			alertify.error("Wiat 15 confirmation");
 			return;
 		}
 		if(data == 'not_1000_DASH_TX'){
-			alertify.error("Неправильная транзакция");
+			alertify.error("Wrong txid");
 			return;
 		}
 		if(data == 'not_1000_DASH_BALANCE'){
-			alertify.error("Ваш баланс != 1000 DASH");
+			alertify.error("Balance != 1000 DASH");
 			return;
 		}
 		if(data == 'error'){
-			alertify.error("Ошибка");
+			alertify.error("Error");
 			return;
 		}
 		if(data == 'mn_work'){
-			alertify.error("MN уже работает");
+			alertify.error("MN already work");
 			return;
 		}
 		window.location = "//dash.org.ru/public/mn.php?download=getfile&data="+data;
