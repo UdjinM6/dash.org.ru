@@ -6,7 +6,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>DASH: MasterNode хостинг</title>
+	<title>DASH: MasterNode offline</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">

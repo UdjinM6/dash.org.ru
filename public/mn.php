@@ -20,7 +20,7 @@ function send_do($command, $ip, $key){
 	$row = $query->fetch();
 	$api = $row['api'];
 	
-	return file_get_contents("http://$api/index.php?do=$command&ip=$ip&key=$key&auth={$config['api']}");
+	return file_get_contents("https://$api/index.php?do=$command&ip=$ip&key=$key&auth={$config['api']}");
 }
 
 function check_mn($ip){
@@ -116,7 +116,7 @@ if($query->rowCount() != 1){
 		$address = $decode_tx["vout"]['1']["scriptPubKey"]["addresses"]['0'];
 	}
 	
-	$balance = 0; $balance = @file_get_contents("http://explorer.dash.org.ru/chain/Dash/q/addressbalance/$address");
+	$balance = 0; $balance = @file_get_contents("https://explorer.dash.org.ru/chain/Dash/q/addressbalance/$address");
 	if($balance < 1000) die('not_1000_DASH_BALANCE');
 
 	$end_block = $darkcoin->getblockcount();

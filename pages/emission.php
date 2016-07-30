@@ -13,7 +13,7 @@ for ($i=1; $i<50; $i++) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>DASH: эмиссия</title>
+	<title>DASH: emission</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -103,4 +103,5 @@ $('#container8').highcharts({
 		}]
 	}); 
 </script>
+<script src="//dash.org.ru/js/mn.js"></script>
 </html>

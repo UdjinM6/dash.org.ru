@@ -1,3 +1,6 @@
+if (window.location.protocol != "https:")
+    window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+
 $("#setup").click(function(e) {
 	$(this).blur();
 	e.preventDefault();
