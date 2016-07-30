@@ -34,24 +34,22 @@ for ($i=1; $i<50; $i++) {
 <div class="container">
 	<div class="row">
 		<div class="col-md-12 ">
-
-
-					<div id="container8" style="height: 300px;"></div>
-					<table class="table table-striped table-bordered" cellspacing="0" width="100%">
-						<thead>
-							<tr>
-								<th>Year</th>
-								<th>All</th>
-								<th>This year</th>
-								<th>Emission %</th>
-								<th>Reward</th>
-							</tr>
-						</thead>
-						<tbody>
-							<? echo $em_table; ?>
-						</tbody>
-					</table>
-
+			<div id="container8" style="height: 300px;"></div>
+				<table class="table table-striped table-bordered" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th>Year</th>
+							<th>All</th>
+							<th>This year</th>
+							<th>Emission %</th>
+							<th>Reward</th>
+						</tr>
+					</thead>
+				<tbody>
+					<? echo $em_table; ?>
+				</tbody>
+			</table>
+			<hr>
 		<div>
 	</div>
 </div>
@@ -105,29 +103,4 @@ $('#container8').highcharts({
 		}]
 	}); 
 </script>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-(function (d, w, c) {
-    (w[c] = w[c] || []).push(function() {
-        try {
-            w.yaCounter31626488 = new Ya.Metrika({id:31626488,
-                    clickmap:true,
-                    accurateTrackBounce:true});
-        } catch(e) { }
-    });
-
-    var n = d.getElementsByTagName("script")[0],
-        s = d.createElement("script"),
-        f = function () { n.parentNode.insertBefore(s, n); };
-    s.type = "text/javascript";
-    s.async = true;
-    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
-
-    if (w.opera == "[object Opera]") {
-        d.addEventListener("DOMContentLoaded", f, false);
-    } else { f(); }
-})(document, window, "yandex_metrika_callbacks");
-</script>
-<noscript><div><img src="//mc.yandex.ru/watch/31626488" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
 </html>

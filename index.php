@@ -56,34 +56,56 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 					<div id="google_translate_element"></div>
 				</div>
 			</div>
-			Запустите DASH кошелек и откройте консоль. Создайте новый DASH адрес.<br/><br/>
+			Start DASH wallet and open console. Create new DASH address.<br/>
+			Запустите DASH кошелек и откройте консоль. Создайте новый DASH адрес.<br/>
 			<blockquote style="font-size:14px;">getnewaddress</blockquote>
-			Вы увидите адрес. Отправьте на него 1000 DASH с помощью команды.<br/><br/>
-			<blockquote style="font-size:14px;">sendtoaddress ваш_новый_адрес 1000</blockquote>
-			Вы увидите номер транзакции, через 50 минут напишите этот номер и нажмите кнопку  "<u>получить masternode.conf</u>"<br/>
-			Если ваш кошелек зашифрован (установлен пароль), терминал выдаст ошибку, тогда вам надо будет <a href="http://www.youtube.com/watch?feature=player_detailpage&v=VEaRjVwxlxw#t=245" target="_blank">разблокировать кошелек</a> и повторить отправку 1000 DASH.<br/><br/>
+			You get DASH address. Send 1000 DASH to this address.<br/>
+			Вы увидите адрес. Отправьте на него 1000 DASH с помощью команды.<br/>
+			<blockquote style="font-size:14px;">sendtoaddress your_address 1000</blockquote>
+			You get txid, wait 40~50 minuts and use txid and press "<u>get masternode.conf</u>"<br/>
+			Вы увидите номер транзакции (TXID), через 50 минут напишите этот номер и нажмите кнопку  "<u>get masternode.conf</u>"<br/><br/>
 			
-			<input id="txid" class="form-control" placeholder="Номер вашей транзакции" type="text"><br/>
-			<button id="setup" type="submit" class="form-control btn btn-default">Получить masternode.conf</button>
+			Dont foget backup your wallet.dat<br/>
+			Не забудьте сделать бекап кошелька.<br/><br/>
+			
+			<input id="txid" class="form-control" placeholder="TXID" type="text">
+			<button id="setup" type="submit" class="form-control btn btn-default">get masternode.conf</button>
 			
 			<br/><br/>
-			Если все прошло успешно, и вы скачали файл <u>masternode.conf</u>, то положите его в папку <i>%appdata%/Roaming/Dash/</i><br/>
-			Перезагрузите ваш DASH кошелек. Откройте консоль и запустите мастерноду командой:<br/><br/>
-			<blockquote style="font-size:14px;">masternode start-alias mn1</blockquote>
+			If all fine => you download <u>masternode.conf</u>. Then put this file in folder.<br/>
+			Если все прошло успешно, и вы скачали файл <u>masternode.conf</u>, то положите его в папку.
+			<blockquote style="font-size:14px;"><i>~/.dash/</i>  (Linux)<br/>
+			<i>%appdata%/Roaming/Dash/</i> => (Windows)<br/>
+			<i>~/Library/Application Support/Dash/</i> => (MAC)</blockquote>
+			Restart DASH wallet. Open console and start masternode.<br/>
+			Перезагрузите ваш DASH кошелек. Откройте консоль и запустите мастерноду командой:<br/>
+			<blockquote style="font-size:14px;">masternode start-alias <strong>mn1</strong></blockquote>
 			
-			Если вы увидели "<u>Successfully started 1 masternodes</u>" - то все отлично. Не выключайте кошелек. Через 10~15 минут зайдите на сайт <a href="https://dashninja.pl" target="_blank">dashninja.pl</a>.<br/>
+			If you see "<u>Successfully started 1 masternodes</u>" - all fine. Dont shutdown wallet. And after 10~15 minutes open site <a href="https://dashninja.pl" target="_blank">dashninja.pl</a>.<br/>
+			Если вы увидели "<u>Successfully started 1 masternodes</u>" - то все отлично. Не выключайте кошелек. Через 10~15 минут зайдите на сайт <a href="https://dashninja.pl" target="_blank">dashninja.pl</a>.<br/><br/>
+			
+			Find table (list of masternodes). Enter your address (where you send 1000 DASH). If you find your masternode - you can shutdown DASH wallet.<br/>
 			Найдите таблицу (список мастернод). В поле поиск напишите адрес (туда вы отправили 1000 DASH). Если нашли свою masternode - можно выключить DASH кошелек.<br/><br/>
 			
-			Чтобы добавить еще MN - повторите действия. Когда вы получите новый файл masternode.conf => его нужно совместить со старым.<br/>
+			
+			Repeat the steps to start another MN. But when you get masternode.conf => you need to combine two files into one.<br/>
+			Чтобы добавить еще MN - повторите действия. Когда вы получите новый файл masternode.conf => его нужно совместить со старым.<br/><br/>
+			
+			Open both files in a text editor. Copy the contents of the new file to the old. For example, a new file.<br/>
 			С помощью текст-редактора откройте оба файла. Скопируйте содержимое нового файла в старый. Например, новый файл.
 			<blockquote style="font-size:14px;"><strong>mn1</strong> z.z.z.z:9999 ...</blockquote>
 			
+			Old file.<br/>
 			Старый файл.<br/>
 			<blockquote style="font-size:14px;">mn1 x.x.x.x:9999 ...</blockquote>
 			
-			Копируем из нового в старый (<i>%appdata%/Roaming/Dash/masternode.conf</i>), в итоге получается.
+			Copy from the new to the old.<br/>
+			Копируем из нового в старый, в итоге получается.
 			<blockquote style="font-size:14px;">mn1 x.x.x.x:9999 ...<br/>
 			<strong>mn2</strong> z.z.z.z:9999 ...</blockquote>
+			<hr>
+			If you have any questions - contact us: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => we will be glad to help you.<br/>
+			Если у вас появились какие-либо вопросы - свяжитесь с нами: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => будем рады помочь.
 			<hr>
 		</div>
 	</div>

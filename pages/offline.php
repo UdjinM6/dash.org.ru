@@ -60,18 +60,25 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 				
 				</div>
 			</div>
-			Стараемся не допустить выключения мастернод с помощью <a href="https://github.com/poiuty/dashpay.org.ru/blob/master/remote/check.php">мониторинга</a>.<br/>
-			Если вы увидели свою мастерноду в этом списке. Вам необходимо, открыть файл <u>masternode.conf</u>, найти название вашей мастерноды.<br/>
-			Например упала мастернода IP => 127.0.0.2, <u>masternode.conf</u> содержит записи.<br/><br/>
+			<a href="https://github.com/poiuty/dashpay.org.ru/blob/master/remote/check.php">Automatic monitoring</a> checks masternodes. And restart if MN get crash or freeze.<br/>
+			Стараемся не допустить выключения мастернод с помощью <a href="https://github.com/poiuty/dashpay.org.ru/blob/master/remote/check.php">мониторинга</a>.<br/><br/>
+			
+			If you see your masternode in this list => open <u>masternode.conf</u> and find offline masternode.<br/>
+			Если вы увидели свою мастерноду в этом списке. Вам необходимо, открыть файл <u>masternode.conf</u>, найти название вашей мастерноды.<br/><br/>
+			
+			For example, if offline masternode IP => 127.0.0.2 and <u>masternode.conf</u><br/>
+			Например упала мастернода IP => 127.0.0.2, <u>masternode.conf</u> содержит записи.<br/>
 			<blockquote style="font-size:14px;">mn1 127.0.0.1:9999 ...<br/>
-			mn2 127.0.0.2:9999 ...<br/>
+			<strong>mn2</strong> 127.0.0.2:9999 ...<br/>
 			mn3 127.0.0.3:9999 ...<br/></blockquote>
 			
-			Теперь открываем холодный кошелек, запускаем консоль и включаем мастерноду.<br/><br/>
+			Open DASH wallet, open console and start offline masternode.<br/>
+			Теперь открываем кошелек, запускаем консоль и включаем мастерноду.<br/>
+			<blockquote style="font-size:14px;">masternode start-alias <strong>mn2</strong></blockquote>
 			
-			<blockquote style="font-size:14px;">masternode start-alias mn2</blockquote>
-			Если у вас появились какие-либо вопросы или проблемы - свяжитесь с нами: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => будем рады помочь.<br/><br/>
-			<table id="mn_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			If you have any questions - contact us: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => we will be glad to help you.<br/>
+			Если у вас появились какие-либо вопросы - свяжитесь с нами: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => будем рады помочь.<br/>
+			<table id="mn_table" class="table table-striped table-bordered" cellspacing="0" width="100%"><br/>
 				<thead>
 					<tr>
 						<th><center>IP</center></th>
@@ -83,7 +90,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 					<? echo $fail_mn; ?>
 				</tbody>
 			</table>
-			<br/>
+			<hr/>
 		</div>
 	</div>
 </div>

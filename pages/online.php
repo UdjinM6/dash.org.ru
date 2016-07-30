@@ -57,24 +57,34 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 				</div>
 			</div>
 			Online MN: <? echo $mn_online; ?> | Free slots: <? echo $mn_free; ?><br/><br/>
-			Техническая поддержка: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>).<br/>
-			Продление срока будет произведено на основе фактически присланной вами суммы, из расчёта "<i>0.33 DASH за каждые 10 дней хостинга</i>".<br/>
-			1. Напишите в поиск адрес вашей masternode.<br/>
-			2. Скопируйте адрес для оплаты хостинга и произведите оплату.<br/>
+				If you have any questions - contact us: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => we will be glad to help you.<br/>
+			Если у вас появились какие-либо вопросы - свяжитесь с нами: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => будем рады помочь.<br/><br/>
+			
+			Price: "<i>10 days = 0.33 DASH</i>".<br/>
+			Стоимость: "<i>0.33 DASH = 10 дней хостинга</i>".<br/><br/>
+			
+			1. Find you masternode (this page).<br/>
+			1. Найдите свою masternode на этой странице.<br/><br/>
+			
+			2. Copy payment address and send some DASH.<br/> 
+			2. Скопируйте адрес (payment address) и произведите оплату.<br/><br/>
+			
+			3. Wait 10~20 min and check list => time should increase.<br/>
 			3. Через некоторое время снова проверьте список и убедитесь что продление состоялось.<br/><br/>
 			<table id="pay_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>
 					<tr>
 						<th><center>IP</center></th>
-						<th><center>Masternode</center></th>
-						<th><center>Куда оплачивать</center></th>
-						<th><center>Оплачено до</center></th>
+						<th><center>MasterNode</center></th>
+						<th><center>Payment address</center></th>
+						<th><center>Time</center></th>
 					</tr>
 				</thead>
 				<tbody>
 					<? echo $pay_mn; ?>
 				</tbody>
 			</table>
+			<hr/>
 		</div>
 	</div>
 </div>

@@ -63,34 +63,6 @@ if(!empty($_GET['last'])){
 	die(json_encode($x));
 }
 
-if(!empty($_GET['control'])){
-	sleep(1);
-	if(empty($_POST['key'])) die('no_key');
-	$key = $_POST['key'];
-	$query = $db->prepare("SELECT * FROM `hosting` WHERE `key` = :key");
-	$query->bindParam(':key', $key, PDO::PARAM_STR);
-	$query->execute();
-	if($query->rowCount() != 1) die('no_key');
-	$row=$query->fetch();
-	$ip = $row['ip'];
-	$api_url = $row['api'];
-	switch($_GET['control']){
-		default: echo "no"; break;
-		case 'restart': send_do('restart', $ip, $key); break;
-		case 'log':
-			send_do('log', $ip, $key);
-			echo "http://api".$api_url.".dash.org.ru/$ip/debug.tar.gz";
-		break;
-		case 'status':
-			echo check_mn($ip);
-		break;
-		case 'info':
-			echo 'https://dashninja.pl/mndetails.html?mnpubkey='.$row['address'];
-		break;
-	}
-	die;
-}
-
 if(!empty($_GET['download']) && $_GET['download'] == 'getfile'){
 	header("Accept-Ranges: bytes");
 	header("Connection: close");
@@ -120,7 +92,7 @@ if($query->rowCount() != 1){
 	while($row=$query->fetch()){
 		if(check_mn($row['ip']) == 'NO' && time()-60*60*24 > $row['last'] && time()-60*60*12 > $row['time']){
 			$ip = $row['ip'];
-			continue;
+			break;
 		}
 	}
 	
@@ -133,7 +105,6 @@ if($query->rowCount() != 1){
 
 	$decode_tx = $darkcoin->decoderawtransaction($raw_tx);
 	if($decode_tx["vout"]['0']["value"] != 1000 && $decode_tx["vout"]['1']["value"] != 1000) die('not_1000_DASH_TX');
-	//die($decode_tx["vout"]['1']["value"]);
 	
 	if($decode_tx["vout"]['0']["value"] == 1000){
 		$outputs = $decode_tx["vout"]['0']["n"];
