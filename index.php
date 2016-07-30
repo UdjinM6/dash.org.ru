@@ -56,14 +56,17 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 					<div id="google_translate_element"></div>
 				</div>
 			</div>
+			<a href="https://www.youtube.com/watch?v=Ao9_HbBukvw" target="_blank">Video guide: install MasterNode dash.org.ru hosting</a><br/>
+			<a href="https://www.youtube.com/watch?v=Ao9_HbBukvw" target="_blank">Видео гайд: установка MasterNode на хостинге dash.org.ru</a><br/><br/>
+			
 			Start DASH wallet and open console. Create new DASH address.<br/>
 			Запустите DASH кошелек и откройте консоль. Создайте новый DASH адрес.<br/>
 			<blockquote style="font-size:14px;">getnewaddress</blockquote>
 			You get DASH address. Send 1000 DASH to this address.<br/>
 			Вы увидите адрес. Отправьте на него 1000 DASH с помощью команды.<br/>
 			<blockquote style="font-size:14px;">sendtoaddress your_address 1000</blockquote>
-			You get txid, wait 40~50 minuts and use txid and press "<u>get masternode.conf</u>"<br/>
-			Вы увидите номер транзакции (TXID), через 50 минут напишите этот номер и нажмите кнопку  "<u>get masternode.conf</u>"<br/><br/>
+			You get txid, wait 40~50 minutes (<a href="https://chainz.cryptoid.info/dash/" target="_blank">15 confirmations</a>) and use txid and press "<u>get masternode.conf</u>"<br/>
+			Вы увидите номер транзакции (TXID), через 50 минут (<a href="https://chainz.cryptoid.info/dash/" target="_blank">15 confirmations</a>) напишите этот номер и нажмите кнопку  "<u>get masternode.conf</u>"<br/><br/>
 			
 			Dont foget backup your wallet.dat<br/>
 			Не забудьте сделать бекап кошелька.<br/><br/>
@@ -75,7 +78,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 			If all fine => you download <u>masternode.conf</u>. Then put this file in folder.<br/>
 			Если все прошло успешно, и вы скачали файл <u>masternode.conf</u>, то положите его в папку.
 			<blockquote style="font-size:14px;"><i>~/.dash/</i>  (Linux)<br/>
-			<i>%appdata%/Roaming/Dash/</i> => (Windows)<br/>
+			<i>%appdata%/Dash/</i> => (Windows)<br/>
 			<i>~/Library/Application Support/Dash/</i> => (MAC)</blockquote>
 			Restart DASH wallet. Open console and start masternode.<br/>
 			Перезагрузите ваш DASH кошелек. Откройте консоль и запустите мастерноду командой:<br/>
@@ -105,7 +108,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 			<strong>mn2</strong> z.z.z.z:9999 ...</blockquote>
 			<hr>
 			If you have any questions - contact us: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => we will be glad to help you.<br/>
-			Если у вас появились какие-либо вопросы - свяжитесь с нами: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => будем рады помочь.
+			Если у вас появились какие-либо вопросы - свяжитесь с нами: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => будем рады помочь.			
 			<hr>
 		</div>
 	</div>

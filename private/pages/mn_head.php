@@ -36,7 +36,6 @@ $query->execute();
 while($row = $query->fetch()){
 	$balance = $cache->get($row['address']);
 	if($balance === FALSE){
-		echo "121212";
 		$balance = @file_get_contents("https://explorer.dash.org.ru/chain/Dash/q/addressbalance/{$row[address]}");
 		$cache->set($row['address'], $balance, MEMCACHE_COMPRESSED, 600);
 	}
