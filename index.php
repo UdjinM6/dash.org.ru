@@ -6,7 +6,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>DASH: MasterNode хостинг</title>
+	<title>DASH: MasterNode hosting</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -108,7 +108,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 			<strong>mn2</strong> z.z.z.z:9999 ...</blockquote>
 			<hr>
 			If you have any questions - contact us: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => we will be glad to help you.<br/>
-			Если у вас появились какие-либо вопросы - свяжитесь с нами: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => будем рады помочь.			
+			Если у вас появились какие-либо вопросы - свяжитесь с нами: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => будем рады помочь.
 			<hr>
 		</div>
 	</div>

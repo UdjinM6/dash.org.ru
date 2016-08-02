@@ -19,6 +19,11 @@ function check_mn($ip){
 	return $i;
 }
 
+$query = $db->query("SELECT * FROM `price` WHERE `name` = 'USDT_DASH'");
+$query->execute();
+$price = $query->fetch();
+$price = round($price['value']/30, 2);
+
 $mn_online = 0;
 $query = $db->query("SELECT * FROM `hosting`");
 $query->execute();
