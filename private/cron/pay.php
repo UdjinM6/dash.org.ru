@@ -3,7 +3,11 @@ require_once('/var/www/dash.org.ru/site/private/config.php');
 require_once('/var/www/dash.org.ru/site/private/init/mysql.php');
 require_once('/var/www/dash.org.ru/site/private/class/easydarkcoin.php');
 $darkcoin = new Darkcoin($config['dash_user'], $config['dash_pass'], $config['dash_host'], $config['dash_port']);
-$price = 1; // 1/3 => 0.33 (10d)
+
+$query = $db->query("SELECT * FROM `price` WHERE `name` = 'USDT_DASH'");
+$query->execute();
+$price = $query->fetch();
+$price = round(10/$price['value']/3, 2);
 
 // Получаем массив и делаем цикл
 $a = $darkcoin->listtransactions("*", 1000);
@@ -41,5 +45,5 @@ for ($i=0; count($a) > $i; $i++){
 	$update_query->bindParam(':address', $row['address'], PDO::PARAM_STR);
 	$update_query->execute();
 	
-	echo $a["$i"]["amount"]." ".$row['address']." $time_now => $time_pay <br/>";
+	echo $a["$i"]["amount"]." ".$row['address']." $time_now => $time_pay \n";
 }

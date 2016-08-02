@@ -60,8 +60,8 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 				If you have any questions - contact us: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => we will be glad to help you.<br/>
 			Если у вас появились какие-либо вопросы - свяжитесь с нами: @poiuty (<a href="https://telegram.org/" target="_blank">telegram</a>) => будем рады помочь.<br/><br/>
 			
-			Price: "<i><?php echo $price; ?> DASH = 10 days</i>".<br/>
-			Стоимость: "<i><?php echo $price; ?> DASH = 10 дней хостинга</i>".<br/><br/>
+			<i>Price: 10$ => 30 days, <?php echo $price; ?> DASH = 10 days</i>.<br/>
+			<i>Стоимость: 10$ => 30 дней, <?php echo $price; ?> DASH = 10 дней</i>.<br/><br/>
 			
 			<a href="https://www.youtube.com/watch?v=RUdutny6ZK0" target="_blank">Video guide: payment hosting</a><br/>
 			<a href="https://www.youtube.com/watch?v=RUdutny6ZK0" target="_blank">Видео гайд: оплата хостинга</a><br/><br/>

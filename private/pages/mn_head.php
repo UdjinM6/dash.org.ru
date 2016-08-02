@@ -22,7 +22,7 @@ function check_mn($ip){
 $query = $db->query("SELECT * FROM `price` WHERE `name` = 'USDT_DASH'");
 $query->execute();
 $price = $query->fetch();
-$price = round($price['value']/30, 2);
+$price = round(10/$price['value']/3, 2);
 
 $mn_online = 0;
 $query = $db->query("SELECT * FROM `hosting`");
