@@ -45,6 +45,8 @@ while($row = $query->fetch()){
 		$cache->set($row['address'], $balance, MEMCACHE_COMPRESSED, 600);
 	}
 	if($balance < 1000) continue;
+	if(array_key_exists($row['txid'].'-'.$row['out'], $info)) continue;
+	
 	$fail_mn = "$fail_mn <tr><td><center>$row[ip]</center></td><td><center>$row[address]<center></td><td><center>".date("Y-m-d H:i", $row['last'])."</center></td></tr>";
 }
 $mn_free = $mn_all - $mn_online; 
