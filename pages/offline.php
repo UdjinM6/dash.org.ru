@@ -63,8 +63,14 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
 			<a href="https://github.com/poiuty/dashpay.org.ru/blob/master/remote/check.php">Automatic monitoring</a> checks masternodes. And restart if MN get crash or freeze.<br/>
 			Стараемся не допустить выключения мастернод с помощью <a href="https://github.com/poiuty/dashpay.org.ru/blob/master/remote/check.php">мониторинга</a>.<br/><br/>
 			
-			If you see your masternode in this list => open <u>masternode.conf</u> and find offline masternode.<br/>
-			Если вы увидели свою мастерноду в этом списке. Вам необходимо, открыть файл <u>masternode.conf</u>, найти название вашей мастерноды.<br/><br/>
+			If you see your masternode in this list => first follow link and check masternode status (dashninja.pl)<br/>
+			Если вы увидели свою мастерноду в этом списке. Сначала перейдите по ссылке, проверьте статус на сайте dashninja.pl<br/><br/>
+			
+			If status <i>Active</i> => all fine, your masternode work.<br/>
+			Если статус <i>Active</i> => все хорошо, ваша masternode работает.<br/><br/>
+			
+			If you cant find you masternode (dashninja.pl), than open <u>masternode.conf</u> and find offline masternode.<br/>
+			Если вы не нашли masternode на сайте (dashninja.pl), то вам необходимо, открыть файл <u>masternode.conf</u>, найти название вашей мастерноды.<br/><br/>
 			
 			For example, if offline masternode IP => 127.0.0.2 and <u>masternode.conf</u><br/>
 			Например упала мастернода IP => 127.0.0.2, <u>masternode.conf</u> содержит записи.<br/>

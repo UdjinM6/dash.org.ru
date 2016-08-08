@@ -47,7 +47,7 @@ while($row = $query->fetch()){
 	if($balance < 1000) continue;
 	if(array_key_exists($row['txid'].'-'.$row['out'], $info)) continue;
 	
-	$fail_mn = "$fail_mn <tr><td><center>$row[ip]</center></td><td><center>$row[address]<center></td><td><center>".date("Y-m-d H:i", $row['last'])."</center></td></tr>";
+	$fail_mn = "$fail_mn <tr><td><center>$row[ip]</center></td><td><center><a href=\"https://dashninja.pl/mndetails.html?mnpubkey=$row[address]\" target=\"_blank\">$row[address]</a><center></td><td><center>".date("Y-m-d H:i", $row['last'])."</center></td></tr>";
 }
 $mn_free = $mn_all - $mn_online; 
 
