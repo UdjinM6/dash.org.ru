@@ -1,6 +1,6 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/pages/menu.php');
-$j = 5; $coins = 5300000; $em_table = '<tr><td>2014</td><td>0</td><td>5300000</td><td>100</td><td>25.2</td></tr>'; $em_data = "0,"; $em_data_new = "5300000, ";
+$j = 5; $coins = 5300000; $em_table = '<tr><td>2014</td><td>'.$coins.'</td><td>'.$coins.'</td><td>100</td><td>25.2</td></tr>'; $em_data = "0,"; $em_data_new = "5300000, ";
 for ($i=1; $i<50; $i++) {
 	$j -= $j/14;
 	$p = 210240*$j;
